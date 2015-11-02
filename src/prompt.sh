@@ -13,5 +13,3 @@ then
     PS1='\n\[$reset$fg_green$bold\][\t] \[$reset$fg_green\]\w\n\[$reset$fg_yellow$bold\]\u@\h \$\[$reset\] ';
   fi
 fi
-
-
