@@ -1,0 +1,2 @@
+# dotbash
+Bash configuration
