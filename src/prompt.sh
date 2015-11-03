@@ -1,6 +1,9 @@
 # Disable virtualenv PS
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
+# Set the title of the window
+export PROMPT_COMMAND="printf \"\033k${HOSTNAME%%.*}\033\""
+
 # Get virtualenv
 function print_virtualenv() {
 
