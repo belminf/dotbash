@@ -4,4 +4,4 @@ export HISTCONTROL='ignoreboth'
 export HISTIGNORE='&:ls:[bf]g:exit'
 export HISTTIMEFORMAT='%b %d %H:%M:%S: '
 shopt -s histappend
-set cmdhist
+shopt -s cmdhist
