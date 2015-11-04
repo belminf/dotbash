@@ -14,7 +14,7 @@ alias what='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-til
 alias update_env="(echo 'bash update...'; cd ${HOME}/.bash; git pull; echo 'vim update...'; cd ${HOME}/.vim; git pull)"
 
 # tmux SSH
-function tmux-ssh {
+function s {
   for h
   do
     tmux find-window -N ssh:$h 2> /dev/null || tmux new-window -n ssh:$h ssh $h 
