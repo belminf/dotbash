@@ -13,6 +13,14 @@ alias less='less -R'
 alias what='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
 alias update_env="(echo 'bash update...'; cd ${HOME}/.bash; git pull; echo 'vim update...'; cd ${HOME}/.vim; git pull)"
 
+# tmux SSH
+function tmux-ssh {
+  for h
+  do
+    tmux find-window -N ssh:$h 2> /dev/null || tmux new-window -n ssh:$h ssh $h 
+  done
+}
+
 # Functions
 function extract {
   if [ -z "$1" ]; then
