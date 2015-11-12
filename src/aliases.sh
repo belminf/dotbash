@@ -21,6 +21,11 @@ function s {
   done
 }
 
+# Make dir and CD into it
+function mkcd() {
+  mkdir -p "$@" && cd "$@"
+}
+
 # dated backup
 function bup() {
   if [ -z "$1" ]; then
