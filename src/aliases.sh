@@ -1,3 +1,7 @@
+## Create a ~/bin
+mkdir ~/bin || true
+export PATH="$HOME/bin:$PATH"
+
 ## Interactive operation
 alias rm='rm -i'
 alias cp='cp -i'
