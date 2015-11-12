@@ -1,3 +1,6 @@
+# Turn off stty flow control
+stty -ixon
+
 # Don't clobber files
 set -o noclobber
 
