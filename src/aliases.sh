@@ -1,5 +1,5 @@
 ## Create a ~/bin
-mkdir ~/bin || true
+mkdir ~/bin 2> /dev/null || true
 export PATH="$HOME/bin:$PATH"
 
 ## Interactive operation
