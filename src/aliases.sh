@@ -14,7 +14,23 @@ alias egrep='egrep --color=auto'
 ## Others
 alias ll='ls -lh --color=tty'
 alias what='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
-alias update_env="(echo 'bash update...'; cd ${HOME}/.bash; git pull; echo 'vim update...'; cd ${HOME}/.vim; git pull)"
+
+# Update env
+function update_env {
+  echo 'bash update...'
+  (cd ${HOME}/.bash && git pull && git status --porcelain)
+  
+  echo ''
+  echo 'vim update...';
+  (cd ${HOME}/.vim && git pull && git status --porcelain)
+
+  if [ -d "${HOME}/.tmux" ]
+  then
+    echo ''
+    echo 'tmux update...'
+    (cd ${HOME}/.tmux && git pull && git status --porcelain)
+  fi
+}
 
 # tmux SSH
 function s {
