@@ -15,7 +15,7 @@ function print_virtualenv() {
 }
 
 # Create prompt with colors
-if [[ -bash == *bash* ]] && tty -s
+if tty -s
 then
   fg_green="$(tput setaf 2)"
   fg_yellow="$(tput setaf 3)"
