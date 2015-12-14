@@ -1,6 +1,6 @@
 ## Create a ~/bin
-mkdir ~/bin 2> /dev/null || true
-export PATH="$HOME/bin:$PATH"
+mkdir -p ~/local/bin 2> /dev/null || true
+export PATH="$HOME/local/bin:$PATH"
 
 ## Interactive operation
 alias rm='rm -i'
