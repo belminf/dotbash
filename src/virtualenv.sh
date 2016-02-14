@@ -6,5 +6,5 @@ then
   mkdir  $WORKON_HOME 2> /dev/null || true
   mkdir  $PROJECT_HOME 2> /dev/null || true
   export PIP_VIRTUALENV_BASE=$WORKON_HOME
-  source $(which /usr/bin/virtualenvwrapper.sh)
+  source $(which virtualenvwrapper.sh)
 fi
