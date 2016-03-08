@@ -7,5 +7,8 @@ function update_ssh_agent {
   eval $(tmux show-environment -s)
 }
 
-# First run
-update_ssh_agent
+# Only do this if in TMUX
+if  [ -n "$TMUX" ]
+then
+  update_ssh_agent
+fi
