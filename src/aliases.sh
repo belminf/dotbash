@@ -7,6 +7,15 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 
+# Dirs stack
+alias d='dirs -v'
+function c {
+  pushd +{$1}  
+}
+function p {
+  popd  
+}
+
 ## Colors
 alias grep='grep --color'
 alias egrep='egrep --color=auto'
