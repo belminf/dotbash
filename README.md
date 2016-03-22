@@ -10,3 +10,6 @@ ln -s ~/.bash/rc.sh ~/.bashrc
 
 # Optional:
 - virtualenv
+
+# Local profile
+Keep in `src/local.sh`.
