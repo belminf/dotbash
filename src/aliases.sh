@@ -10,7 +10,7 @@ alias mv='mv -i'
 # Dirs stack
 alias d='dirs -v'
 function c {
-  pushd +{$1}  
+  pushd +${1}  
 }
 function p {
   popd  
