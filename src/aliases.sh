@@ -21,7 +21,7 @@ alias grep='grep --color'
 alias egrep='egrep --color=auto'
 
 ## Others
-alias ls='ls -lh --group-directories-first --color=tty'
+alias ll='ls -lh --group-directories-first --color=tty'
 alias what='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
 
 # Update env
