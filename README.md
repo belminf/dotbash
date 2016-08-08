@@ -1,5 +1,8 @@
 # Installing:
 ```
+# Virtualenv (optional)
+sudo pip install virtualenv{,wrapper}
+
 # Clone
 git clone --recursive git@github.com:belminf/dotbash.git ~/.bash
 
@@ -7,9 +10,6 @@ git clone --recursive git@github.com:belminf/dotbash.git ~/.bash
 mv ~/.bashrc ~/.bashrc.original
 ln -s ~/.bash/rc.sh ~/.bashrc
 ```
-
-# Optional:
-- virtualenv
 
 # Local profile
 Keep in `src/local.sh`.
