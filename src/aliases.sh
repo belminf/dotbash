@@ -49,6 +49,15 @@ function s {
   done
 }
 
+# cd prints a list after switching
+function cd() {
+  new_directory="$*";
+  if [ $# -eq 0  ]; then 
+    new_directory=${HOME};
+  fi;
+  builtin cd "${new_directory}" && ls
+}
+
 # Make dir and CD into it
 function mkcd() {
   mkdir -p "$@" && cd "$@"
