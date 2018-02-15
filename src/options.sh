@@ -13,3 +13,6 @@ shopt -s cdspell
 
 # Resize window
 shopt -s checkwinsize
+
+# Set VI mode
+set -o vi
