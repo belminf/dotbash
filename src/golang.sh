@@ -1,3 +1,3 @@
 # Golang env
-export export GOPATH=$HOME/go
+export GOPATH=$HOME/go
 alias g="cd $GOPATH"
