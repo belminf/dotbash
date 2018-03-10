@@ -15,23 +15,6 @@ alias egrep='egrep --color=auto'
 alias ll='ls -lh --group-directories-first --color=tty'
 alias what='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
 
-# Update env
-function update_env {
-  echo 'bash update...'
-  (cd ${HOME}/.bash && git pull && git status --porcelain)
-  
-  echo ''
-  echo 'vim update...';
-  (cd ${HOME}/.vim && git pull && git status --porcelain)
-
-  if [ -d "${HOME}/.tmux" ]
-  then
-    echo ''
-    echo 'tmux update...'
-    (cd ${HOME}/.tmux && git pull && git status --porcelain)
-  fi
-}
-
 # tmux SSH
 function s {
   for h
