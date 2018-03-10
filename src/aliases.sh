@@ -29,27 +29,6 @@ function mkcd() {
   mkdir -p "$@" && cd "$@"
 }
 
-# dated backup
-function bup() {
-  if [ -z "$1" ]; then
-    echo "Usage: bup <file>"
-    return 1
-  fi
-
-  if [ ! -f "$1" ]; then
-    echo "Error: File does not exist"
-    return 1
-  fi
-
-  local DATESTR="$(date "+%Y.%m.%d")"
-
-  if [ -z "$2" ]; then
-    \cp -ia $1{,".$DATESTR"}
-  else
-    \cp -ia $1{,".${DATESTR}-$2"}
-  fi
-}
-
 # Functions
 function extract {
   if [ -z "$1" ]; then
