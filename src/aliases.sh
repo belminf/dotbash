@@ -15,14 +15,6 @@ alias egrep='egrep --color=auto'
 alias ll='ls -lh --group-directories-first --color=tty'
 alias what='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
 
-# tmux SSH
-function s {
-  for h
-  do
-    tmux find-window -N ssh:$h 2> /dev/null || tmux new-window -n ssh:$h ssh $h 
-  done
-}
-
 # cd prints a list after switching
 function cd() {
   new_directory="$*";
