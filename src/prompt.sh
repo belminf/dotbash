@@ -1,3 +1,6 @@
+# Automatically trim long paths in prompt
+export PROMPT_DIRTRIM=2
+
 # Disable virtualenv PS
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
