@@ -1,5 +1,6 @@
 # History settings
 export HISTSIZE=1000000
+export HISTFILESIZE=${HISTSIZE}
 
 # Ignore commands that start with spaces
 export HISTCONTROL='ignorespace'
