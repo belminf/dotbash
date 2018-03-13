@@ -1,14 +1,11 @@
-# Consistent SSH auth sock to work around tmux issue
+# Fixes ssh-agent issue with tmux
 
-# Function
-function update_ssh_agent {
+# Run ssh-agent if not already running
+pgrep -u $USER ssh-agent > /dev/null 2>&1 || ssh-agent > /dev/null 2>&1
 
-  # Reload tmux
-  eval $(tmux show-environment -s)
-}
+# Set new SSH_AUTH_SOCK
+export SSH_AUTH_SOCK="${HOME}/.ssh/.auth_sock.$(hostname)"
 
-# Only do this if in TMUX
-if  [ -n "$TMUX" ]
-then
-  update_ssh_agent
-fi
+# Link SSH agent file
+CURRENT_AUTH_SOCK="$(find /tmp -type s -printf "%T@ %p\n" 2> /dev/null | grep ssh | sort -n  | cut -d' ' -f 2- | tail -n 1)"
+ln -sf "$CURRENT_AUTH_SOCK" "$SSH_AUTH_SOCK"
