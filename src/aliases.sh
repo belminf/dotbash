@@ -12,7 +12,7 @@ alias grep='grep --color'
 alias egrep='egrep --color=auto'
 
 ## Others
-alias ll='ls -lh --group-directories-first --color=tty'
+alias ll='ls -lh --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__"'
 alias what='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
 
 # cd prints a list after switching
