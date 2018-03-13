@@ -4,11 +4,11 @@
 sudo pip install virtualenv{,wrapper}
 
 # Clone
-git clone --recursive git@github.com:belminf/dotbash.git ~/.config/bash
+git clone --recursive git@github.com:belminf/dotbash.git ~/.bash
 
 # Link .bashrc
 mv ~/.bashrc ~/.bashrc.original
-ln -s ~/.config/bash/rc.sh ~/.bashrc
+ln -s ~/.bash/rc.sh ~/.bashrc
 ```
 
 # Local profile
