@@ -1,3 +1,6 @@
+# Save history right away
+export PROMPT_COMMAND='printf "\033k${HOSTNAME}:${PWD}\033\\";history -a'
+
 # Disable virtualenv PS
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 

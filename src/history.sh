@@ -11,8 +11,5 @@ export HISTIGNORE='&:ls:[bf]g:exit'
 # Add time to history
 export HISTTIMEFORMAT='%b %d %H:%M:%S: '
 
-# Save history right away
-export PROMPT_COMMAND='history -a'
-
 shopt -s histappend
 shopt -s cmdhist
