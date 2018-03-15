@@ -1,5 +1,5 @@
 # Chagne window title and save history right away
-export PROMPT_COMMAND='printf "\033k$( [ -z $SSH_TTY ] && echo "" || echo ${USER}@${HOSTNAME}:)$(dirs)\033\\";history -a'
+export PROMPT_COMMAND='printf "\033k$( [ -z $SSH_TTY ] && echo "" || echo ${HOSTNAME%%.*}:)$(basename $(dirs))\033\\";history -a'
 
 # Disable virtualenv PS
 export VIRTUAL_ENV_DISABLE_PROMPT=1
