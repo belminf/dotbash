@@ -1,5 +1,11 @@
-# Chagne window title and save history right away
-export PROMPT_COMMAND='printf "\033k$( [ -z $SSH_TTY ] && echo "" || echo ${HOSTNAME%%.*}:)$(basename $(dirs))\033\\";history -a'
+# Update history right away
+export PROMPT_COMMAND='history -a'
+
+# If tmux, also update title
+if [[ $TMUX ]]
+then
+  export PROMPT_COMMAND='printf "\033k$( [ -z $SSH_TTY ] && echo "" || echo ${HOSTNAME%%.*}:)$(basename $(dirs))\033\\";history -a'
+fi
 
 # Disable virtualenv PS
 export VIRTUAL_ENV_DISABLE_PROMPT=1
