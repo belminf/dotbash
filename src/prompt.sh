@@ -17,7 +17,7 @@ function print_virtualenv() {
   if [[ -n "$VIRTUAL_ENV" ]]
   then
     # Strip out the path and just leave the env name
-    echo "(${VIRTUAL_ENV##*/})"
+    echo " (${VIRTUAL_ENV##*/})"
   fi
   
   # ASSERT: Not in a virtualenv, echo nothing
@@ -36,10 +36,17 @@ function print_userhost() {
 # Create prompt with colors
 if tty -s
 then
-  fg_green="$(tput setaf 2)"
-  fg_yellow="$(tput setaf 3)"
-  fg_blue="$(tput setaf 4)"
-  bold="$(tput bold)"
-  reset="$(tput sgr0)"
-  PS1="\n\[$reset$fg_green$bold\][\t] \[$reset$fg_green\]\w\n\[$reset$fg_yellow$bold\]\$(print_userhost)\$(print_virtualenv)\$\[$reset\] ";
+  fg_green="\[$(tput setaf 2)\]"
+  fg_yellow="\[$(tput setaf 3)\]"
+  fg_blue="\[$(tput setaf 4)\]"
+  fg_cyan="\[$(tput setaf 6)\]"
+  fg_white="\[$(tput setaf 7)\]"
+  bold="\[$(tput bold)\]"
+  reset="\[$(tput sgr0)\]"
+
+  # First line
+  PS1="\n${reset}${fg_cyan}\t ${reset}${fg_green}\w"
+
+  # Second line
+  PS1="${PS1}\n${reset}${fg_cyan}$(print_userhost)\$(print_virtualenv)\$${reset} "
 fi
