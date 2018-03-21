@@ -23,6 +23,16 @@ function print_virtualenv() {
   # ASSERT: Not in a virtualenv, echo nothing
 }
 
+# Get virtualenv
+function print_userhost() {
+
+  # See if we are in SSH
+  if [[ "$SSH_TTY" ]]
+  then
+    echo "\u@\h"
+  fi
+}
+
 # Create prompt with colors
 if tty -s
 then
@@ -31,10 +41,5 @@ then
   fg_blue="$(tput setaf 4)"
   bold="$(tput bold)"
   reset="$(tput sgr0)"
-  if uname | grep CYGWIN > /dev/null 2>&1
-  then
-    PS1="\n\[$reset$fg_green$bold\][\t] \[$reset$fg_green\]\w\n\$(print_virtualenv)\$\[$reset\] "
-  else
-    PS1="\n\[$reset$fg_green$bold\][\t] \[$reset$fg_green\]\w\n\[$reset$fg_yellow$bold\]\u@\h \$(print_virtualenv)\$\[$reset\] ";
-  fi
+  PS1="\n\[$reset$fg_green$bold\][\t] \[$reset$fg_green\]\w\n\[$reset$fg_yellow$bold\]\$(print_userhost)\$(print_virtualenv)\$\[$reset\] ";
 fi
