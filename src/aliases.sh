@@ -21,7 +21,7 @@ function cd() {
   if [ $# -eq 0  ]; then 
     new_directory=${HOME};
   fi;
-  builtin cd "${new_directory}" && ls --group-directories-first --color=tty
+  builtin cd "${new_directory}" && ls -F --group-directories-first --color=tty
 }
 
 # Make dir and CD into it
