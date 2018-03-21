@@ -17,7 +17,7 @@ function print_virtualenv() {
   if [[ -n "$VIRTUAL_ENV" ]]
   then
     # Strip out the path and just leave the env name
-    echo " (${VIRTUAL_ENV##*/})"
+    echo "(${VIRTUAL_ENV##*/})"
   fi
   
   # ASSERT: Not in a virtualenv, echo nothing
@@ -29,7 +29,7 @@ function print_userhost() {
   # See if we are in SSH
   if [[ "$SSH_TTY" ]]
   then
-    echo "\u@\h"
+    echo "\u@\h "
   fi
 }
 
