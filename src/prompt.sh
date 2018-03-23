@@ -73,19 +73,19 @@ function print_git_info {
     fi
     
     # Set arrow icon based on status against remote.
-    remote_pattern="^Your branch is (.*) of"
+    remote_pattern="Your branch is (.*) of"
     if [[ ${git_status} =~ ${remote_pattern} ]]; then
       if [[ ${BASH_REMATCH[1]} == "ahead" ]]; then
-      remote="↑"
+        remote="↑ "
       else
-      remote="↓"
+        remote="↓ "
       fi
     else
       remote=""
     fi
-    diverge_pattern="^Your branch and .* have diverged"
+    diverge_pattern="Your branch and .* have diverged"
     if [[ ${git_status} =~ ${diverge_pattern} ]]; then
-      remote="↕"
+      remote="↕ "
     fi
     
     # Get the name of the branch.
@@ -95,7 +95,7 @@ function print_git_info {
     fi
     
     # Set the final branch string.
-    echo "${state}(${branch})${remote}${COLOR_RESET}"
+    echo "${state}(${remote}${branch})${COLOR_RESET}"
   fi
 }
 
