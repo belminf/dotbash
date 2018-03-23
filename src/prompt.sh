@@ -15,12 +15,12 @@ then
 fi
 
 # Tput variables
-COLOR_FG_GREEN="\[$(tput setaf 2)\]"
-COLOR_FG_YELLOW="\[$(tput setaf 3)\]"
-COLOR_FG_BLUE="\[$(tput setaf 4)\]"
-COLOR_FG_CYAN="\[$(tput setaf 6)\]"
-COLOR_FG_WHITE="\[$(tput setaf 7)\]"
-COLOR_FG_RED="\[$(tput setaf 1)\]"
+COLOR_1="\[$(tput setaf 249)\]"
+COLOR_2="\[$(tput setaf 243)\]"
+COLOR_GOOD="\[$(tput setaf 40)\]"
+COLOR_SOSO="\[$(tput setaf 154)\]"
+COLOR_BAD="\[$(tput setaf 124)\]"
+COLOR_DIM="\[$(tput dim)\]"
 COLOR_BOLD="\[$(tput bold)\]"
 COLOR_RESET="\[$(tput sgr0)\]"
 CURSOR_SAVE="\[$(tput sc)\]"
@@ -34,7 +34,7 @@ function print_virtualenv() {
   then
 
     # Strip out the path and just leave the env name
-    echo "${COLOR_FG_CYAN}${VIRTUAL_ENV##*/}${COLOR_RESET}"
+    echo "${COLOR_2}${VIRTUAL_ENV##*/}${COLOR_RESET}"
   fi
 
   # ASSERT: Don't print env if not in one
@@ -65,11 +65,11 @@ function print_git_info {
     
     # Set color based on clean/staged/dirty.
     if [[ ${git_status} =~ "working tree clean" ]]; then
-      state="${COLOR_FG_GREEN}"
+      state="${COLOR_GOOD}"
     elif [[ ${git_status} =~ "Changes to be committed" ]]; then
-      state="${COLOR_FG_YELLOW}"
+      state="${COLOR_SOSO}"
     else
-      state="${COLOR_FG_RED}"
+      state="${COLOR_BAD}"
     fi
     
     # Set arrow icon based on status against remote.
@@ -106,7 +106,7 @@ function set_prompt_symbol() {
   then
     PROMPT_SYMBOL="\$"
   else
-    PROMPT_SYMBOL="${COLOR_FG_RED}\$${COLOR_RESET}"
+    PROMPT_SYMBOL="${COLOR_BAD}\$${COLOR_RESET}"
   fi
 }
 
@@ -122,12 +122,12 @@ function add_rhs_ps1() {
 
 # Add first line of prompt
 function add_first_ps1() {
-  PS1="${PS1}${COLOR_RESET}${COLOR_FG_CYAN}\t ${COLOR_RESET}${COLOR_FG_GREEN}\w\n"
+  PS1="${PS1}${COLOR_RESET}${COLOR_1}\t ${COLOR_RESET}${COLOR_2}\w\n"
 }
 
 # Add second line of prompt
 function add_second_ps1() {
-  PS1="${PS1}${COLOR_RESET}${COLOR_FG_CYAN}$(print_userhost)${PROMPT_SYMBOL}${COLOR_RESET} "
+  PS1="${PS1}${COLOR_RESET}${COLOR_1}$(print_userhost)${PROMPT_SYMBOL}${COLOR_RESET} "
 }
 
 function set_ps1() {
