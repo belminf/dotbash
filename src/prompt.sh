@@ -15,8 +15,8 @@ then
 fi
 
 # Tput variables
-COLOR_1="\[$(tput setaf 249)\]"
-COLOR_2="\[$(tput setaf 243)\]"
+COLOR_1="\[$(tput setaf 12)\]"
+COLOR_2="\[$(tput setaf 144)\]"
 COLOR_GOOD="\[$(tput setaf 35)\]"
 COLOR_SOSO="\[$(tput setaf 154)\]"
 COLOR_BAD="\[$(tput setaf 124)\]"
