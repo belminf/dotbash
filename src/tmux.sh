@@ -6,7 +6,7 @@ export SSH_AUTH_SOCK="${HOME}/.ssh/.auth_sock.$(hostname)"
 # Run ssh-agent if not already running
 pgrep -u $USER ssh-agent > /dev/null 2>&1 || ssh-agent -a $SSH_AUTH_SOCK > /dev/null 2>&1
 
-if ! [ -L $SSH_AUTH_SOCK ] || [ -e $SSH_AUTH_SOCK ]
+if ! [ -L $SSH_AUTH_SOCK ] || ! [ -e $SSH_AUTH_SOCK ]
 then
     ln -sf $(ls -dt1 /tmp/ssh-*/* | head -n 1) $SSH_AUTH_SOCK
 fi
