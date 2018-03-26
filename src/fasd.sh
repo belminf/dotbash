@@ -1,5 +1,5 @@
 # Only if fasd exists
-if hash fasd
+if hash fasd 2> /dev/null
 then
   eval "$(fasd --init auto)"
  
