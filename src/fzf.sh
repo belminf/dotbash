@@ -11,5 +11,5 @@ then
 fi
 
 # Source FZF bash files
-source "${FZF_DIR}/completion.bash"
-source "${FZF_DIR}/key-bindings.bash"
+source "${FZF_SCRIPTS_DIR}/completion.bash"
+source "${FZF_SCRIPTS_DIR}/key-bindings.bash"
