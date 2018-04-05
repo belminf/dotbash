@@ -1,8 +1,5 @@
-complete -cf sudo
-complete -cf man
-
-# Complete for SSH known hosts
-complete -W "$(echo `cat ~/.ssh/known_hosts | cut -f 1 -d ' ' | sed -e s/,.*//g | uniq | grep -v "\["`;)" ssh
+# Source completion if available
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && . /usr/share/bash-completion/bash_completion
 
 # Treat hyphens and underscores as equivalent
 bind "set completion-map-case on"
