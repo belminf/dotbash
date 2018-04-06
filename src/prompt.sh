@@ -26,6 +26,9 @@ COLOR_RESET="\[$(tput sgr0)\]"
 CURSOR_SAVE="\[$(tput sc)\]"
 CURSOR_RESTORE="\[$(tput rc)\]"
 
+GIT_CLEAN_RE="working (tree|directory) clean"
+GIT_PENDING_PUSH_RE="Changes to be committed"
+
 # Get virtualenv
 function print_virtualenv() {
 
@@ -64,9 +67,9 @@ function print_git_info {
     git_status="$(git status 2> /dev/null)"
     
     # Set color based on clean/staged/dirty.
-    if [[ ${git_status} =~ "working tree clean" ]]; then
+    if [[ "${git_status}" =~ $GIT_CLEAN_RE ]]; then
       state="${COLOR_GOOD}"
-    elif [[ ${git_status} =~ "Changes to be committed" ]]; then
+    elif [[ "${git_status}" =~ $GIT_PENDING_PUSH_RE ]]; then
       state="${COLOR_SOSO}"
     else
       state="${COLOR_BAD}"
