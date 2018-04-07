@@ -7,12 +7,9 @@ PROMPT_COMMAND="set_ps1"
 # Update history right away
 PROMPT_COMMAND="${PROMPT_COMMAND};history -a"
 
-# If tmux, also update title
-if [[ $TMUX ]]
-then
-  TMUX_TITLE_UPDATE='printf "\033k$( [ -z $SSH_TTY ] && echo "" || echo ${HOSTNAME%%.*}:)$(basename $(dirs))\033\\"'
-  PROMPT_COMMAND="${PROMPT_COMMAND};${TMUX_TITLE_UPDATE}"
-fi
+# Title update
+TITLE_UPDATE='printf "\033k$( [ -z $SSH_TTY ] && echo "" || echo ${HOSTNAME%%.*}:)$(basename $(dirs))\033\\"'
+PROMPT_COMMAND="${PROMPT_COMMAND};${TITLE_UPDATE}"
 
 # Tput variables
 COLOR_1="\[$(tput setaf 12)\]"
