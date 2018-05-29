@@ -12,7 +12,7 @@ alias grep='grep --color'
 alias egrep='egrep --color=auto'
 
 ## Others
-alias ll='ls -lhF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__"'
+alias ll='ls -lahF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__"'
 alias what='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
 alias tree='tree -C -I "__pycache__|*.pyc"'
 
