@@ -89,7 +89,7 @@ function print_git_info {
     fi
     
     # Get the name of the branch.
-    branch_pattern="^On branch ([^${IFS}]*)"
+    branch_pattern="^On branch ([^[:space:]]*)"
     if [[ ${git_status} =~ ${branch_pattern} ]]; then
       branch=${BASH_REMATCH[1]}
     fi
