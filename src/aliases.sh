@@ -10,10 +10,15 @@ alias mv='mv -i'
 ## Colors
 alias grep='grep --color'
 alias egrep='egrep --color=auto'
+alias ll='ls -lahF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__"'
+
+## Which
+what () {
+    (alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@
+}
+export -f what
 
 ## Others
-alias ll='ls -lahF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__"'
-alias what='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
 alias tree='tree -C -I "__pycache__|*.pyc"'
 
 # cd prints a list after switching
