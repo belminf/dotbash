@@ -21,6 +21,11 @@ export -f what
 ## Others
 alias tree='tree -C -I "__pycache__|*.pyc"'
 
+# Alias vim to nvim if it exists
+if [ -x "$(command -v nvim)" ]; then
+    alias vim='nvim'
+fi
+
 # cd prints a list after switching
 function cd() {
   new_directory="$*";
