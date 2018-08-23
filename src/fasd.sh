@@ -1,4 +1,5 @@
 # Only if fasd exists
+_FASD_TRACK_PWD=1
 if hash fasd 2> /dev/null
 then
   eval "$(fasd --init auto)"
