@@ -1,8 +1,14 @@
 # Disable virtualenv PS
 VIRTUAL_ENV_DISABLE_PROMPT=1
 
+# Load VTE conf if exists
+if [ -f /etc/profile.d/vte.sh ]
+then
+    . /etc/profile.d/vte.sh
+fi
+
 # Refresh ps1
-PROMPT_COMMAND="set_ps1"
+PROMPT_COMMAND="${PROMPT_COMMAND:-true};set_ps1"
 
 # Update history right away
 PROMPT_COMMAND="${PROMPT_COMMAND};history -a"
