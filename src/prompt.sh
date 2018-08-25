@@ -13,10 +13,6 @@ PROMPT_COMMAND="${PROMPT_COMMAND:-true};set_ps1"
 # Update history right away
 PROMPT_COMMAND="${PROMPT_COMMAND};history -a"
 
-# Title update
-TITLE_UPDATE='printf "\033k$( [ -z $SSH_TTY ] && echo "" || echo ${HOSTNAME%%.*}:)$(basename $(dirs))\033\\"'
-PROMPT_COMMAND="${PROMPT_COMMAND};${TITLE_UPDATE}"
-
 # Tput variables
 COLOR_1="\[$(tput setaf 12)\]"
 COLOR_2="\[$(tput setaf 144)\]"
@@ -26,8 +22,8 @@ COLOR_BAD="\[$(tput setaf 124)\]"
 COLOR_DIM="\[$(tput dim)\]"
 COLOR_BOLD="\[$(tput bold)\]"
 COLOR_RESET="\[$(tput sgr0)\]"
-CURSOR_SAVE="\[$(tput sc)\]"
-CURSOR_RESTORE="\[$(tput rc)\]"
+CURSOR_SAVE="$(tput sc)"
+CURSOR_RESTORE="$(tput rc)"
 
 GIT_CLEAN_RE="working (tree|directory) clean"
 GIT_PENDING_PUSH_RE="Changes to be committed"
