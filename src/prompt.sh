@@ -119,7 +119,7 @@ function add_rhs_ps1() {
   RHS_PS1="$(sed "s/[[:space:]]*$//" <<< "$RHS_PS1")"
   RHS_PS1_CLEAN="$(sed "s/\x1B[^m]*m\|\\\\\[\|\\\\\]//g" <<< "$RHS_PS1")"
 
-  PS1="${PS1}\[${CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D${RHS_PS1}${CURSOR_RESTORE}\]"
+  PS1="${PS1}${CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D${RHS_PS1}${CURSOR_RESTORE}"
 }
 
 # Add first line of prompt
