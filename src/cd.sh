@@ -1,4 +1,4 @@
 shopt -s cdable_vars
 
 # CD path
-export CDPATH=".:~:~/projects"
+export CDPATH=".:~:~/projects:~/go/src/github.com/belminf"
