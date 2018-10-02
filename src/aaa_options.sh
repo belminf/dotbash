@@ -21,7 +21,7 @@ bind Space:magic-space
 shopt -s globstar 2> /dev/null
 
 # Case-insensitive globbing (used in pathname expansion)
-shopt -s nocaseglob;
+shopt -s nocaseglob
 
 # Ignore hidden files on match
 bind 'set match-hidden-files off'
