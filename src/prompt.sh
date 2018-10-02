@@ -8,7 +8,12 @@ then
 fi
 
 # Refresh ps1
-PROMPT_COMMAND="${PROMPT_COMMAND:-true};set_ps1"
+if [ -z "$PROMPT_COMMAND" ]
+then
+    PROMPT_COMMAND="${PROMPT_COMMAND};set_ps1"
+else
+    PROMPT_COMMAND="set_ps1"
+fi
 
 # Update history right away
 PROMPT_COMMAND="${PROMPT_COMMAND};history -a"
@@ -64,7 +69,7 @@ function print_git_info {
 
     # Capture the output of the "git status" command.
     git_status="$(git status 2> /dev/null)"
-    
+
     # Set color based on clean/staged/dirty.
     if [[ "${git_status}" =~ $GIT_CLEAN_RE ]]; then
       state="${COLOR_GOOD}"
@@ -73,7 +78,7 @@ function print_git_info {
     else
       state="${COLOR_BAD}"
     fi
-    
+
     # Set arrow icon based on status against remote.
     remote_pattern="Your branch is (.*) of"
     if [[ ${git_status} =~ ${remote_pattern} ]]; then
@@ -89,13 +94,13 @@ function print_git_info {
     if [[ ${git_status} =~ ${diverge_pattern} ]]; then
       remote="↕ "
     fi
-    
+
     # Get the name of the branch.
     branch_pattern="^On branch ([^[:space:]]*)"
     if [[ ${git_status} =~ ${branch_pattern} ]]; then
       branch=${BASH_REMATCH[1]}
     fi
-    
+
     # Set the final branch string.
     echo "${state}(${remote}${branch})${COLOR_RESET}"
   fi
@@ -136,12 +141,12 @@ function set_ps1() {
 
   # Save last retval
   set_prompt_symbol $?
-  
+
   # Reset PS1
   PS1="\n"
 
   # Add all parts
-  add_rhs_ps1 
+  add_rhs_ps1
   add_first_ps1
   add_second_ps1
 }
