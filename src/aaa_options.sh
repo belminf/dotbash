@@ -4,13 +4,6 @@ stty -ixon
 # Don't clobber files
 set -o noclobber
 
-# Auto CD when a directory is set
-## Not supportd in RHEL5
-shopt -s autocd
-
-# Correct spelling errors during tab-completion
-shopt -s dirspell
-
 # Correct spelling errors in arguments supplied to cd
 shopt -s cdspell
 
