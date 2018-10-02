@@ -1,3 +1,9 @@
+## If on Mac, use GNU utils first
+if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]
+then
+    export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+fi
+
 ## Create a ~/bin
 mkdir -p ~/.local/bin 2> /dev/null || true
 export PATH="${HOME}/.local/bin:${HOME}/.local/scripts:$PATH"
@@ -29,7 +35,7 @@ fi
 # cd prints a list after switching
 function cd() {
   new_directory="$*";
-  if [ $# -eq 0  ]; then 
+  if [ $# -eq 0  ]; then
     new_directory=${HOME};
   fi;
   builtin cd "${new_directory}" && ls -F --group-directories-first --color=tty
