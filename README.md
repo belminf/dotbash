@@ -6,16 +6,17 @@
 * fasd - autojump-like
 * tmux - terminal multiplexer
 * pipenv - Python virtual environments
+* nvim - Neovim editor
 
 ## Distro-specific
 ### Arch
 ```
-yay -S direnv fzf fasd tmux python-pipenv
+yay -S --needed direnv fzf fasd tmux python-pipenv neovim
 ```
 
 ### macOS
 ```
-brew install direnv fzf fasd tmux pipenv
+brew install direnv fzf fasd tmux pipenv neovim
 ```
 ## Clone config
 ```
