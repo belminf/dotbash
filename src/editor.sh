@@ -1,4 +1,4 @@
 # Editor env
 export PAGER=$(\which less)
-export EDITOR=$(\which vim)
+export EDITOR=$(\which nvim)
 export LESS='-R'
