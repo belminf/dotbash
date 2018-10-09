@@ -8,6 +8,11 @@ then
 elif [ -d "/usr/share/fzf" ]
 then
   FZF_SCRIPTS_DIR="/usr/share/fzf"
+
+# macOS (brew) install
+elif [ -d "/usr/local/opt/fzf" ]
+then
+    FZF_SCRIPTS_DIR="/usr/local/opt/fzf/shell"
 fi
 
 # Source FZF bash files

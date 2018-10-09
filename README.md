@@ -17,6 +17,7 @@ yay -S --needed direnv fzf fasd tmux python-pipenv neovim
 ### macOS
 ```
 brew install direnv fzf fasd tmux pipenv neovim
+$(brew --prefix)/opt/fzf/install
 ```
 ## Clone config
 ```
