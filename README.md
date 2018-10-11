@@ -11,12 +11,12 @@
 ## Distro-specific
 ### Arch
 ```
-yay -S --needed direnv fzf fasd tmux python-pipenv neovim
+yay -S --needed direnv fzf fasd tmux python-pipenv neovim bash-completion
 ```
 
 ### macOS
 ```
-brew install direnv fzf fasd tmux pipenv neovim
+brew install direnv fzf fasd tmux pipenv neovim bash-completion
 $(brew --prefix)/opt/fzf/install
 ```
 ## Clone config
