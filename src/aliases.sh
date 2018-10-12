@@ -38,7 +38,7 @@ function cd() {
   if [ $# -eq 0  ]; then
     new_directory=${HOME};
   fi;
-  builtin cd "${new_directory}" && ls -F --group-directories-first --color=tty
+  builtin cd "${new_directory}" && ls -1hF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__" | head -n 20
 }
 
 # Make dir and CD into it
