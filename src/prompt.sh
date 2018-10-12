@@ -129,7 +129,12 @@ function add_rhs_ps1() {
 
 # Add first line of prompt
 function add_first_ps1() {
-  PS1="${PS1}${COLOR_RESET}${COLOR_1}\t ${COLOR_RESET}${COLOR_2}\w\n"
+  PS1="${PS1}${COLOR_RESET}${COLOR_1}\t ${COLOR_RESET}${COLOR_2}\w"
+  if [ -n "$(type -t _knife-block_ps1)" ] && [ "$(type -t _knife-block_ps1)" = function ]
+  then
+	PS1="${PS1} [$(_knife-block_ps1)]"
+  fi
+  PS1="${PS1}\n"
 }
 
 # Add second line of prompt

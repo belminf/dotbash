@@ -30,3 +30,11 @@ ln -s ~/.bash/rc.sh ~/.bashrc
 
 # Local config
 Keep in `src/local.sh`.
+
+# Miscellaneous
+## Chef
+To display server enabled via [knife-block](https://github.com/knife-block/knife-block) in the prompt, need the following:
+
+```
+curl https://raw.githubusercontent.com/knife-block/knife-block/master/knife-block-prompt.sh -o ~/.knife-block-prompt.sh
+```
