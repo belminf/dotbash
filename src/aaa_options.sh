@@ -4,9 +4,6 @@ stty -ixon
 # Don't clobber files
 set -o noclobber
 
-# Correct spelling errors in arguments supplied to cd
-shopt -s cdspell
-
 # Resize window
 shopt -s checkwinsize
 
