@@ -2,7 +2,7 @@
 ## Arch
 [[ -f /usr/share/bash-completion/bash_completion ]] && source /usr/share/bash-completion/bash_completion
 ## macOS (brew)
-[[ -f $(brew --prefix)/etc/bash_completion ]] && source $(brew --prefix)/etc/bash_completion
+hash brew 2> /dev/null && [[ -f $(brew --prefix)/etc/bash_completion ]] && source $(brew --prefix)/etc/bash_completion
 
 # Treat hyphens and underscores as equivalent
 bind "set completion-map-case on"
