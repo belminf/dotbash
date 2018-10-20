@@ -90,11 +90,11 @@ function print_git_info {
         remote="↓ "
       fi
     else
-      remote="↔ "
+      remote="⇵ "
     fi
     diverge_pattern="Your branch and .* have diverged"
     if [[ ${git_status} =~ ${diverge_pattern} ]]; then
-      remote="↕ "
+      remote="↲ "
     fi
 
     # Get the name of the branch.
