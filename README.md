@@ -3,7 +3,6 @@
 ## Useful packages
 * direnv - directory environments
 * fzf - fuzzy search
-* fasd - autojump-like
 * tmux - terminal multiplexer
 * pipenv - Python virtual environments
 * nvim - Neovim editor
@@ -11,12 +10,12 @@
 ## Distro-specific
 ### Arch
 ```
-yay -S --needed direnv fzf fasd tmux python-pipenv neovim bash-completion
+yay -S --needed direnv fzf tmux python-pipenv neovim bash-completion
 ```
 
 ### macOS
 ```
-brew install direnv fzf fasd tmux pipenv neovim bash-completion
+brew install direnv fzf tmux pipenv neovim bash-completion
 $(brew --prefix)/opt/fzf/install
 ```
 ## Clone config
