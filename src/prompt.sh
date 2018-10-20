@@ -19,15 +19,13 @@ fi
 PROMPT_COMMAND="${PROMPT_COMMAND};history -a"
 
 # Tput variables
-COLOR_1="\[$(tput setaf 12)\]"
-COLOR_2="\[$(tput setaf 144)\]"
+COLOR_PRIMARY="\[$(tput setaf 12)\]"
+COLOR_SECONDARY="\[$(tput setaf 144)\]"
 COLOR_GOOD="\[$(tput setaf 35)\]"
 COLOR_SOSO="\[$(tput setaf 117)\]"
 COLOR_BAD="\[$(tput setaf 124)\]"
 COLOR_RHS="\[$(tput setaf 74)\]"
 COLOR_SEP="\[$(tput setaf 239)\]"
-COLOR_DIM="\[$(tput dim)\]"
-COLOR_BOLD="\[$(tput bold)\]"
 COLOR_RESET="\[$(tput sgr0)\]"
 CURSOR_SAVE="\[$(tput sc)\]"
 CURSOR_RESTORE="\[$(tput rc)\]"
@@ -170,12 +168,12 @@ function add_rhs_ps1() {
 
 # Add first line of prompt
 function add_first_ps1() {
-  PS1="${PS1}${COLOR_RESET}${COLOR_1}\t ${COLOR_RESET}${COLOR_2}\w\n"
+  PS1="${PS1}${COLOR_RESET}${COLOR_PRIMARY}\t ${COLOR_RESET}${COLOR_SECONDARY}\w\n"
 }
 
 # Add second line of prompt
 function add_second_ps1() {
-  PS1="${PS1}${COLOR_RESET}${COLOR_1}$(print_userhost)${PROMPT_SYMBOL}${COLOR_RESET} "
+  PS1="${PS1}${COLOR_RESET}${COLOR_PRIMARY}$(print_userhost)${PROMPT_SYMBOL}${COLOR_RESET} "
 }
 
 function set_ps1() {
