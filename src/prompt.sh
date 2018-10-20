@@ -10,9 +10,9 @@ fi
 # Refresh ps1
 if [ -z "$PROMPT_COMMAND" ]
 then
-    PROMPT_COMMAND="${PROMPT_COMMAND};set_ps1"
-else
     PROMPT_COMMAND="set_ps1"
+else
+    PROMPT_COMMAND="${PROMPT_COMMAND};set_ps1"
 fi
 
 # Update history right away
