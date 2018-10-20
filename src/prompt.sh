@@ -24,6 +24,8 @@ COLOR_2="\[$(tput setaf 144)\]"
 COLOR_GOOD="\[$(tput setaf 35)\]"
 COLOR_SOSO="\[$(tput setaf 117)\]"
 COLOR_BAD="\[$(tput setaf 124)\]"
+COLOR_RHS="\[$(tput setaf 74)\]"
+COLOR_SEP="\[$(tput setaf 239)\]"
 COLOR_DIM="\[$(tput dim)\]"
 COLOR_BOLD="\[$(tput bold)\]"
 COLOR_RESET="\[$(tput sgr0)\]"
@@ -41,7 +43,7 @@ function print_virtualenv() {
   then
 
     # Strip out the path and just leave the env name
-    echo "${COLOR_SOSO}ℙ ${VIRTUAL_ENV##*/}"
+    echo "${COLOR_GOOD}ℙ ${COLOR_RHS}${VIRTUAL_ENV##*/}"
   fi
 
   # ASSERT: Don't print env if not in one
@@ -102,15 +104,22 @@ function print_git_info {
     fi
 
     # Set the final branch string.
-    echo "${state}${remote}${branch}"
+    echo "${state}${remote}${COLOR_RHS}${branch}"
   fi
 }
 
 function print_knife_info {
   if [ -n "$(type -t _knife-block_ps1)" ] && [ "$(type -t _knife-block_ps1)" = function ]
   then
-	echo "${COLOR_SOSO}⍃ $(_knife-block_ps1)"
+	echo "${COLOR_GOOD}⍃ ${COLOR_RHS}$(_knife-block_ps1)"
   fi
+}
+
+function print_aws_info {
+    if [ ! -z "$AWS_PROFILE" ]
+    then
+        echo "${COLOR_GOOD}α ${COLOR_RHS}${AWS_PROFILE}"
+    fi
 }
 
 # Save symbol coloring based on last retval
@@ -129,15 +138,16 @@ function add_rhs_ps1() {
   INFO_GIT="$(print_git_info)"
   INFO_VENV="$(print_virtualenv)"
   INFO_KNIFE="$(print_knife_info)"
+  INFO_AWSPROFILE="$(print_aws_info)"
 
   RHS_PS1=""
-  for INFO_SNIPPET in "$INFO_GIT" "$INFO_VENV" "$INFO_KNIFE"
+  for INFO_SNIPPET in "$INFO_GIT" "$INFO_VENV" "$INFO_KNIFE" "$INFO_AWSPROFILE"
   do
       if [ ! -z "$INFO_SNIPPET" ]
       then
           if [ ! -z "$RHS_PS1" ]
           then
-              RHS_PS1="${RHS_PS1} "
+              RHS_PS1="${RHS_PS1} ${COLOR_SEP}⸗${COLOR_RESET} "
           fi
           RHS_PS1="${RHS_PS1}${INFO_SNIPPET}"
       fi
@@ -146,9 +156,9 @@ function add_rhs_ps1() {
   # Trailing and leading spaces
   RHS_PS1="$(echo "$RHS_PS1" | sed "s/[[:space:]]*$//")"
   RHS_PS1="$(echo "$RHS_PS1" | sed "s/^[[:space:]]*//")"
-  RHS_PS1_CLEAN="$(echo "$RHS_PS1" | sed "s/\x1B[^m]*m\|\\\\\[\|\\\\\]//g")"
+  RHS_PS1_CLEAN="$(echo -n "$RHS_PS1" | sed -r "s,\x1B\[[^m]*m(\x0F)?,,g" | sed -r 's,\\(\[|\]),,g')"
 
-  PS1="${PS1}${CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D ${RHS_PS1}${COLOR_RESET}${CURSOR_RESTORE}"
+  PS1="${PS1}${CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D${RHS_PS1}${COLOR_RESET}${CURSOR_RESTORE}"
 }
 
 # Add first line of prompt
