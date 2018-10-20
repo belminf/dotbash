@@ -109,10 +109,20 @@ function print_git_info {
 }
 
 function print_knife_info {
-  if [ -n "$(type -t _knife-block_ps1)" ] && [ "$(type -t _knife-block_ps1)" = function ]
-  then
-	echo "${COLOR_GOOD}⍃ ${COLOR_RHS}$(_knife-block_ps1)"
-  fi
+    if [ -f ".chef/knife.rb" ] && [ ! ./ -ef ~ ]
+    then
+        CURRENT_CHEF="$(grep chef_server_url .chef/knife.rb 2> /dev/null | awk -F[/:] '{print $4}')"
+    fi
+
+    if [ -z "$CURRENT_CHEF" ] && [ -n "$(type -t _knife-block_ps1)" ] && [ "$(type -t _knife-block_ps1)" = function ]
+    then
+	CURRENT_CHEF="$(_knife-block_ps1)"
+    fi
+
+    if [ ! -z "$CURRENT_CHEF" ]
+    then
+	echo "${COLOR_GOOD}⍃ ${COLOR_RHS}${CURRENT_CHEF}"
+    fi
 }
 
 function print_aws_info {
