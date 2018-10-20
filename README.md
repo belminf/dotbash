@@ -16,6 +16,8 @@ yay -S --needed direnv fzf tmux python-pipenv neovim bash-completion
 ### macOS
 ```
 brew install direnv fzf tmux pipenv neovim bash-completion
+brew install gnu-sed --with-default-names
+brew install gnu-which --with-default-names
 $(brew --prefix)/opt/fzf/install
 ```
 ## Clone config
