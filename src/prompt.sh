@@ -145,30 +145,27 @@ function set_prompt_symbol() {
 # Add context to the RHS
 # Ref: https://superuser.com/a/1203400/48807
 function add_rhs_ps1() {
-  INFO_GIT="$(print_git_info)"
-  INFO_VENV="$(print_virtualenv)"
-  INFO_KNIFE="$(print_knife_info)"
-  INFO_AWSPROFILE="$(print_aws_info)"
+    INFO_GIT="$(print_git_info)"
+    INFO_VENV="$(print_virtualenv)"
+    INFO_KNIFE="$(print_knife_info)"
+    INFO_AWSPROFILE="$(print_aws_info)"
 
-  RHS_PS1=""
-  for INFO_SNIPPET in "$INFO_GIT" "$INFO_VENV" "$INFO_KNIFE" "$INFO_AWSPROFILE"
-  do
-      if [ ! -z "$INFO_SNIPPET" ]
-      then
-          if [ ! -z "$RHS_PS1" ]
-          then
-              RHS_PS1="${RHS_PS1} ${COLOR_SEP}⸗${COLOR_RESET} "
-          fi
-          RHS_PS1="${RHS_PS1}${INFO_SNIPPET}"
-      fi
-  done
+    RHS_PS1=""
+    for INFO_SNIPPET in "$INFO_GIT" "$INFO_VENV" "$INFO_KNIFE" "$INFO_AWSPROFILE"
+    do
+        if [ ! -z "$INFO_SNIPPET" ]
+        then
+            if [ ! -z "$RHS_PS1" ]
+            then
+                RHS_PS1="${RHS_PS1} ${COLOR_SEP}⸗ "
+            fi
+            RHS_PS1="${RHS_PS1}${INFO_SNIPPET}"
+        fi
+    done
 
-  # Trailing and leading spaces
-  RHS_PS1="$(echo "$RHS_PS1" | sed "s/[[:space:]]*$//")"
-  RHS_PS1="$(echo "$RHS_PS1" | sed "s/^[[:space:]]*//")"
-  RHS_PS1_CLEAN="$(echo -n "$RHS_PS1" | sed -r "s,\x1B\[[^m]*m(\x0F)?,,g" | sed -r 's,\\(\[|\]),,g')"
+    RHS_PS1_CLEAN="$(echo -n "$RHS_PS1" | sed "s,\x1B\[[^m]*m\(\x0F\)\?,,g" | sed 's,\\\[\|\\\],,g')"
 
-  PS1="${PS1}${CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D${RHS_PS1}${COLOR_RESET}${CURSOR_RESTORE}"
+    PS1="${PS1}${CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D${RHS_PS1}${COLOR_RESET}${CURSOR_RESTORE}"
 }
 
 # Add first line of prompt
