@@ -19,14 +19,14 @@ fi
 PROMPT_COMMAND="${PROMPT_COMMAND};history -a"
 
 # Tput variables
-COLOR_1="\[$(tput setaf 12)\]"
-COLOR_2="\[$(tput setaf 144)\]"
-COLOR_GOOD="\[$(tput setaf 35)\]"
-COLOR_SOSO="\[$(tput setaf 154)\]"
-COLOR_BAD="\[$(tput setaf 124)\]"
-COLOR_DIM="\[$(tput dim)\]"
-COLOR_BOLD="\[$(tput bold)\]"
-COLOR_RESET="\[$(tput sgr0)\]"
+COLOR_1="$(tput setaf 12)"
+COLOR_2="$(tput setaf 144)"
+COLOR_GOOD="$(tput setaf 35)"
+COLOR_SOSO="$(tput setaf 117)"
+COLOR_BAD="$(tput setaf 124)"
+COLOR_DIM="$(tput dim)"
+COLOR_BOLD="$(tput bold)"
+COLOR_RESET="$(tput sgr0)"
 CURSOR_SAVE="$(tput sc)"
 CURSOR_RESTORE="$(tput rc)"
 
@@ -41,7 +41,7 @@ function print_virtualenv() {
   then
 
     # Strip out the path and just leave the env name
-    echo "${COLOR_2}${VIRTUAL_ENV##*/}${COLOR_RESET}"
+    echo "${COLOR_SOSO}🄿  ${VIRTUAL_ENV##*/}"
   fi
 
   # ASSERT: Don't print env if not in one
@@ -88,7 +88,7 @@ function print_git_info {
         remote="↓ "
       fi
     else
-      remote=""
+      remote="↔ "
     fi
     diverge_pattern="Your branch and .* have diverged"
     if [[ ${git_status} =~ ${diverge_pattern} ]]; then
@@ -102,10 +102,16 @@ function print_git_info {
     fi
 
     # Set the final branch string.
-    echo "${state}(${remote}${branch})${COLOR_RESET}"
+    echo "${state}${remote}${branch}"
   fi
 }
 
+function print_knife_info {
+  if [ -n "$(type -t _knife-block_ps1)" ] && [ "$(type -t _knife-block_ps1)" = function ]
+  then
+	echo "${COLOR_SOSO}© $(_knife-block_ps1)"
+  fi
+}
 
 # Save symbol coloring based on last retval
 function set_prompt_symbol() {
@@ -120,21 +126,34 @@ function set_prompt_symbol() {
 # Add context to the RHS
 # Ref: https://superuser.com/a/1203400/48807
 function add_rhs_ps1() {
-  RHS_PS1="$(print_git_info) $(print_virtualenv)"
-  RHS_PS1="$(sed "s/[[:space:]]*$//" <<< "$RHS_PS1")"
-  RHS_PS1_CLEAN="$(sed "s/\x1B[^m]*m\|\\\\\[\|\\\\\]//g" <<< "$RHS_PS1")"
+  INFO_GIT="$(print_git_info)"
+  INFO_VENV="$(print_virtualenv)"
+  INFO_KNIFE="$(print_knife_info)"
 
-  PS1="${PS1}${CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D${RHS_PS1}${CURSOR_RESTORE}"
+  RHS_PS1=""
+  for INFO_SNIPPET in "$INFO_GIT" "$INFO_VENV" "$INFO_KNIFE"
+  do
+      if [ ! -z "$INFO_SNIPPET" ]
+      then
+          if [ ! -z "$RHS_PS1" ]
+          then
+              RHS_PS1="${RHS_PS1} "
+          fi
+          RHS_PS1="${RHS_PS1}${INFO_SNIPPET}"
+      fi
+  done
+
+  # Trailing and leading spaces
+  RHS_PS1="$(echo "$RHS_PS1" | sed "s/[[:space:]]*$//")"
+  RHS_PS1="$(echo "$RHS_PS1" | sed "s/^[[:space:]]*//")"
+  RHS_PS1_CLEAN="$(echo "$RHS_PS1" | tr -d '${COLOR_RESET}' | sed "s/\x1B[^m]*m\|\\\\\[\|\\\\\]//g")"
+
+  PS1="${PS1}${CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D ${RHS_PS1}${CURSOR_RESTORE}"
 }
 
 # Add first line of prompt
 function add_first_ps1() {
-  PS1="${PS1}${COLOR_RESET}${COLOR_1}\t ${COLOR_RESET}${COLOR_2}\w"
-  if [ -n "$(type -t _knife-block_ps1)" ] && [ "$(type -t _knife-block_ps1)" = function ]
-  then
-	PS1="${PS1} [$(_knife-block_ps1)]"
-  fi
-  PS1="${PS1}\n"
+  PS1="${PS1}${COLOR_RESET}${COLOR_1}\t ${COLOR_RESET}${COLOR_2}\w\n"
 }
 
 # Add second line of prompt
