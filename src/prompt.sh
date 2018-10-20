@@ -146,7 +146,7 @@ function add_rhs_ps1() {
   # Trailing and leading spaces
   RHS_PS1="$(echo "$RHS_PS1" | sed "s/[[:space:]]*$//")"
   RHS_PS1="$(echo "$RHS_PS1" | sed "s/^[[:space:]]*//")"
-  RHS_PS1_CLEAN="$(echo "$RHS_PS1" | tr -d '${COLOR_RESET}' | sed "s/\x1B[^m]*m\|\\\\\[\|\\\\\]//g")"
+  RHS_PS1_CLEAN="$(echo "$RHS_PS1" | sed "s/\x1B[^m]*m\|\\\\\[\|\\\\\]//g")"
 
   PS1="${PS1}${CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D ${RHS_PS1}${COLOR_RESET}${CURSOR_RESTORE}"
 }
