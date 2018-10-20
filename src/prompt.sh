@@ -19,16 +19,16 @@ fi
 PROMPT_COMMAND="${PROMPT_COMMAND};history -a"
 
 # Tput variables
-COLOR_1="$(tput setaf 12)"
-COLOR_2="$(tput setaf 144)"
-COLOR_GOOD="$(tput setaf 35)"
-COLOR_SOSO="$(tput setaf 117)"
-COLOR_BAD="$(tput setaf 124)"
-COLOR_DIM="$(tput dim)"
-COLOR_BOLD="$(tput bold)"
-COLOR_RESET="$(tput sgr0)"
-CURSOR_SAVE="$(tput sc)"
-CURSOR_RESTORE="$(tput rc)"
+COLOR_1="\[$(tput setaf 12)\]"
+COLOR_2="\[$(tput setaf 144)\]"
+COLOR_GOOD="\[$(tput setaf 35)\]"
+COLOR_SOSO="\[$(tput setaf 117)\]"
+COLOR_BAD="\[$(tput setaf 124)\]"
+COLOR_DIM="\[$(tput dim)\]"
+COLOR_BOLD="\[$(tput bold)\]"
+COLOR_RESET="\[$(tput sgr0)\]"
+CURSOR_SAVE="\[$(tput sc)\]"
+CURSOR_RESTORE="\[$(tput rc)\]"
 
 GIT_CLEAN_RE="working (tree|directory) clean"
 GIT_PENDING_PUSH_RE="Changes to be committed"
@@ -148,7 +148,7 @@ function add_rhs_ps1() {
   RHS_PS1="$(echo "$RHS_PS1" | sed "s/^[[:space:]]*//")"
   RHS_PS1_CLEAN="$(echo "$RHS_PS1" | tr -d '${COLOR_RESET}' | sed "s/\x1B[^m]*m\|\\\\\[\|\\\\\]//g")"
 
-  PS1="${PS1}${CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D ${RHS_PS1}${CURSOR_RESTORE}"
+  PS1="${PS1}${CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D ${RHS_PS1}${COLOR_RESET}${CURSOR_RESTORE}"
 }
 
 # Add first line of prompt
