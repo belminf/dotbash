@@ -41,7 +41,7 @@ function print_virtualenv() {
   then
 
     # Strip out the path and just leave the env name
-    echo "${COLOR_SOSO}🄿  ${VIRTUAL_ENV##*/}"
+    echo "${COLOR_SOSO}ℙ ${VIRTUAL_ENV##*/}"
   fi
 
   # ASSERT: Don't print env if not in one
@@ -109,7 +109,7 @@ function print_git_info {
 function print_knife_info {
   if [ -n "$(type -t _knife-block_ps1)" ] && [ "$(type -t _knife-block_ps1)" = function ]
   then
-	echo "${COLOR_SOSO}© $(_knife-block_ps1)"
+	echo "${COLOR_SOSO}⍃ $(_knife-block_ps1)"
   fi
 }
 
