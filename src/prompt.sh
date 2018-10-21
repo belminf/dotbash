@@ -72,7 +72,7 @@ function print_git_info {
   then
 
     # Capture the output of the "git status" command.
-    git_status="$(git status 2> /dev/null)"
+    local git_status="$(git status 2> /dev/null)"
 
     # Set color based on clean/staged/dirty.
     if [[ ${git_status} =~ $PS_GIT_CLEAN_RE ]]; then
@@ -107,19 +107,22 @@ function print_git_info {
 }
 
 function print_knife_info {
+
+    local current_chef=""
+
     if [ -f ".chef/knife.rb" ] && [ ! ./ -ef ~ ]
     then
-        CURRENT_CHEF="$(grep chef_server_url .chef/knife.rb 2> /dev/null | awk -F[/:] '{print $4}')"
+        current_chef="$(grep chef_server_url .chef/knife.rb 2> /dev/null | awk -F[/:] '{print $4}')"
     fi
 
-    if [ -z "$CURRENT_CHEF" ] && [ -n "$(type -t _knife-block_ps1)" ] && [ "$(type -t _knife-block_ps1)" = function ]
+    if [ -z "$current_chef" ] && [ -n "$(type -t _knife-block_ps1)" ] && [ "$(type -t _knife-block_ps1)" = function ]
     then
-	CURRENT_CHEF="$(_knife-block_ps1)"
+	current_chef="$(_knife-block_ps1)"
     fi
 
-    if [ ! -z "$CURRENT_CHEF" ]
+    if [ ! -z "$current_chef" ]
     then
-	echo -n "${PS_COLOR_GOOD}⍃ ${PS_COLOR_RHS}${CURRENT_CHEF}"
+	echo -n "${PS_COLOR_GOOD}⍃ ${PS_COLOR_RHS}${current_chef}"
     fi
 }
 
@@ -143,28 +146,28 @@ function set_prompt_symbol() {
 # Add context to the RHS
 # Ref: https://superuser.com/a/1203400/48807
 function add_rhs_ps1() {
-    INFO_GIT="$(print_git_info)"
-    INFO_VENV="$(print_virtualenv)"
-    INFO_KNIFE="$(print_knife_info)"
-    INFO_AWSPROFILE="$(print_aws_info)"
+    local info_git="$(print_git_info)"
+    local info_venv="$(print_virtualenv)"
+    local info_knife="$(print_knife_info)"
+    local info_awsprofile="$(print_aws_info)"
 
-    RHS_PS1=""
-    for INFO_SNIPPET in "$INFO_GIT" "$INFO_VENV" "$INFO_KNIFE" "$INFO_AWSPROFILE"
+    local rhs_ps1=""
+    for info_snippet in "$info_git" "$info_venv" "$info_knife" "$info_awsprofile"
     do
-        if [ ! -z "$INFO_SNIPPET" ]
+        if [ ! -z "$info_snippet" ]
         then
-            if [ ! -z "$RHS_PS1" ]
+            if [ ! -z "$rhs_ps1" ]
             then
-                RHS_PS1="${RHS_PS1} ${PS_COLOR_SEP}⸗ "
+                rhs_ps1="${rhs_ps1} ${PS_COLOR_SEP}⸗ "
             fi
-            RHS_PS1="${RHS_PS1}${INFO_SNIPPET}"
+            rhs_ps1="${rhs_ps1}${info_snippet}"
         fi
     done
 
     # Remove formatting to get printable count
-    RHS_PS1_CLEAN="$(echo -n "$RHS_PS1" | sed "s/\\\\\[\x1B\[[^\]*\\\\]//g")"
+    rhs_ps1_clean="$(echo -n "$rhs_ps1" | sed "s/\\\\\[\x1B\[[^\]*\\\\]//g")"
 
-    PS1="${PS1}${PS_CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D${RHS_PS1}${PS_COLOR_RESET}${PS_CURSOR_RESTORE}"
+    PS1="${PS1}${PS_CURSOR_SAVE}\e[${COLUMNS}C\e[${#rhs_ps1_clean}D${rhs_ps1}${PS_COLOR_RESET}${PS_CURSOR_RESTORE}"
 }
 
 # Add first line of prompt
