@@ -19,19 +19,23 @@ fi
 PROMPT_COMMAND="${PROMPT_COMMAND};history -a"
 
 # Tput variables
-COLOR_PRIMARY="\[$(tput setaf 12)\]"
-COLOR_SECONDARY="\[$(tput setaf 144)\]"
-COLOR_GOOD="\[$(tput setaf 35)\]"
-COLOR_SOSO="\[$(tput setaf 117)\]"
-COLOR_BAD="\[$(tput setaf 124)\]"
-COLOR_RHS="\[$(tput setaf 74)\]"
-COLOR_SEP="\[$(tput setaf 239)\]"
-COLOR_RESET="\[$(tput sgr0)\]"
-CURSOR_SAVE="\[$(tput sc)\]"
-CURSOR_RESTORE="\[$(tput rc)\]"
+PS_COLOR_PRIMARY="\[$(tput setaf 12)\]"
+PS_COLOR_SECONDARY="\[$(tput setaf 144)\]"
+PS_COLOR_GOOD="\[$(tput setaf 35)\]"
+PS_COLOR_SOSO="\[$(tput setaf 117)\]"
+PS_COLOR_BAD="\[$(tput setaf 124)\]"
+PS_COLOR_RHS="\[$(tput setaf 74)\]"
+PS_COLOR_SEP="\[$(tput setaf 239)\]"
+PS_COLOR_RESET="\[$(tput sgr0)\]"
+PS_CURSOR_SAVE="\[$(tput sc)\]"
+PS_CURSOR_RESTORE="\[$(tput rc)\]"
 
-GIT_CLEAN_RE="working (tree|directory) clean"
-GIT_PENDING_PUSH_RE="Changes to be committed"
+# git regex patterns
+PS_GIT_CLEAN_RE="working (tree|directory) clean"
+PS_GIT_PENDING_PUSH_RE="Changes to be committed"
+PS_GIT_REMOTE_RE="Your branch is (.*) of"
+PS_GIT_DIVERGE_RE="Your branch and .* have diverged"
+PS_GIT_BRANCH_RE="^On branch ([^[:space:]]*)"
 
 # Get virtualenv
 function print_virtualenv() {
@@ -41,7 +45,7 @@ function print_virtualenv() {
   then
 
     # Strip out the path and just leave the env name
-    echo "${COLOR_GOOD}ℙ ${COLOR_RHS}${VIRTUAL_ENV##*/}"
+    echo -n "${PS_COLOR_GOOD}ℙ ${PS_COLOR_RHS}${VIRTUAL_ENV##*/}"
   fi
 
   # ASSERT: Don't print env if not in one
@@ -53,7 +57,7 @@ function print_userhost() {
   # See if we are in SSH
   if [[ "$SSH_TTY" ]]
   then
-    echo "\u@\h "
+    echo -n "\u@\h "
   fi
 
   # ASSERT: Don't print u@h if local
@@ -71,38 +75,34 @@ function print_git_info {
     git_status="$(git status 2> /dev/null)"
 
     # Set color based on clean/staged/dirty.
-    if [[ "${git_status}" =~ $GIT_CLEAN_RE ]]; then
-      state="${COLOR_GOOD}"
-    elif [[ "${git_status}" =~ $GIT_PENDING_PUSH_RE ]]; then
-      state="${COLOR_SOSO}"
+    if [[ ${git_status} =~ $PS_GIT_CLEAN_RE ]]; then
+      echo -n "${PS_COLOR_GOOD}"
+    elif [[ ${git_status} =~ $PS_GIT_PENDING_PUSH_RE ]]; then
+      echo -n "${PS_COLOR_SOSO}"
     else
-      state="${COLOR_BAD}"
+      echo -n "${PS_COLOR_BAD}"
     fi
 
     # Set arrow icon based on status against remote.
-    remote_pattern="Your branch is (.*) of"
-    if [[ ${git_status} =~ ${remote_pattern} ]]; then
+    if [[ ${git_status} =~ ${PS_GIT_REMOTE_RE} ]]; then
       if [[ ${BASH_REMATCH[1]} == "ahead" ]]; then
-        remote="↑ "
+        echo -n "↑ "
       else
-        remote="↓ "
+        echo -n "↓ "
       fi
+    elif [[ ${git_status} =~ ${PS_GIT_DIVERGE_RE} ]]; then
+      echo -n "↲ "
     else
-      remote="⇵ "
+      echo -n "⇵ "
     fi
-    diverge_pattern="Your branch and .* have diverged"
-    if [[ ${git_status} =~ ${diverge_pattern} ]]; then
-      remote="↲ "
-    fi
+
+    # Print color
+    echo -n "$PS_COLOR_RHS"
 
     # Get the name of the branch.
-    branch_pattern="^On branch ([^[:space:]]*)"
-    if [[ ${git_status} =~ ${branch_pattern} ]]; then
-      branch=${BASH_REMATCH[1]}
+    if [[ ${git_status} =~ ${PS_GIT_BRANCH_RE} ]]; then
+      echo -n "${BASH_REMATCH[1]}"
     fi
-
-    # Set the final branch string.
-    echo "${state}${remote}${COLOR_RHS}${branch}"
   fi
 }
 
@@ -119,14 +119,14 @@ function print_knife_info {
 
     if [ ! -z "$CURRENT_CHEF" ]
     then
-	echo "${COLOR_GOOD}⍃ ${COLOR_RHS}${CURRENT_CHEF}"
+	echo -n "${PS_COLOR_GOOD}⍃ ${PS_COLOR_RHS}${CURRENT_CHEF}"
     fi
 }
 
 function print_aws_info {
     if [ ! -z "$AWS_PROFILE" ]
     then
-        echo "${COLOR_GOOD}α ${COLOR_RHS}${AWS_PROFILE}"
+        echo -n "${PS_COLOR_GOOD}α ${PS_COLOR_RHS}${AWS_PROFILE}"
     fi
 }
 
@@ -136,7 +136,7 @@ function set_prompt_symbol() {
   then
     PROMPT_SYMBOL="\$"
   else
-    PROMPT_SYMBOL="${COLOR_BAD}\$${COLOR_RESET}"
+    PROMPT_SYMBOL="${PS_COLOR_BAD}\$${PS_COLOR_RESET}"
   fi
 }
 
@@ -155,7 +155,7 @@ function add_rhs_ps1() {
         then
             if [ ! -z "$RHS_PS1" ]
             then
-                RHS_PS1="${RHS_PS1} ${COLOR_SEP}⸗ "
+                RHS_PS1="${RHS_PS1} ${PS_COLOR_SEP}⸗ "
             fi
             RHS_PS1="${RHS_PS1}${INFO_SNIPPET}"
         fi
@@ -164,17 +164,17 @@ function add_rhs_ps1() {
     # Remove formatting to get printable count
     RHS_PS1_CLEAN="$(echo -n "$RHS_PS1" | sed "s/\\\\\[\x1B\[[^\]*\\\\]//g")"
 
-    PS1="${PS1}${CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D${RHS_PS1}${COLOR_RESET}${CURSOR_RESTORE}"
+    PS1="${PS1}${PS_CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D${RHS_PS1}${PS_COLOR_RESET}${PS_CURSOR_RESTORE}"
 }
 
 # Add first line of prompt
 function add_first_ps1() {
-  PS1="${PS1}${COLOR_RESET}${COLOR_PRIMARY}\t ${COLOR_RESET}${COLOR_SECONDARY}\w\n"
+  PS1="${PS1}${PS_COLOR_RESET}${PS_COLOR_PRIMARY}\t ${PS_COLOR_RESET}${PS_COLOR_SECONDARY}\w\n"
 }
 
 # Add second line of prompt
 function add_second_ps1() {
-  PS1="${PS1}${COLOR_RESET}${COLOR_PRIMARY}$(print_userhost)${PROMPT_SYMBOL}${COLOR_RESET} "
+  PS1="${PS1}${PS_COLOR_RESET}${PS_COLOR_PRIMARY}$(print_userhost)${PROMPT_SYMBOL}${PS_COLOR_RESET} "
 }
 
 function set_ps1() {
