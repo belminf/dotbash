@@ -161,7 +161,8 @@ function add_rhs_ps1() {
         fi
     done
 
-    RHS_PS1_CLEAN="$(echo -n "$RHS_PS1" | sed "s,\x1B\[[^m]*m\(\x0F\)\?,,g" | sed 's,\\\[\|\\\],,g')"
+    # Remove formatting to get printable count
+    RHS_PS1_CLEAN="$(echo -n "$RHS_PS1" | sed "s/\\\\\[\x1B\[[^\]*\\\\]//g")"
 
     PS1="${PS1}${CURSOR_SAVE}\e[${COLUMNS}C\e[${#RHS_PS1_CLEAN}D${RHS_PS1}${COLOR_RESET}${CURSOR_RESTORE}"
 }
