@@ -45,3 +45,8 @@ function cd() {
 function mkcd() {
   mkdir -p "$@" && cd "$@"
 }
+
+# Make a subdir in projects and cd to it
+function mkproj() {
+    mkcd "${HOME}/projects/$1"
+}
