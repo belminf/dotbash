@@ -34,11 +34,20 @@ fi
 
 # cd prints a list after switching
 function cd() {
-  new_directory="$*";
+  local new_directory="$*";
   if [ $# -eq 0  ]; then
-    new_directory=${HOME};
-  fi;
-  builtin cd "${new_directory}" && ls -1hF --group-directories-first --color=always --hide="*.pyc" --hide="__pycache__" | head -n 20
+    new_directory=${HOME}
+  fi
+
+  # If directory arg is a file, cd into dir and vim file
+  if [ -f "${new_directory}" ]; then
+    cd $(dirname "${new_directory}")
+    vim $(basename "${new_directory}")
+
+  # path isn't a file so just cd
+  else
+    builtin cd "${new_directory}" && ls -1hF --group-directories-first --color=always --hide="*.pyc" --hide="__pycache__" | head -n 20
+  fi
 }
 
 # Make dir and CD into it
