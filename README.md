@@ -10,7 +10,8 @@
 ## Distro-specific
 ### Arch
 ```
-yay -S --needed direnv fzf tmux python-pipenv neovim bash-completion
+yay -S --needed direnv fzf tmux python-pipenv neovim bash-completion pkgfile
+sudo systemctl enable pkgfile-update.timer
 ```
 
 ### macOS
