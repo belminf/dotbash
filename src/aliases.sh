@@ -1,12 +1,12 @@
 ## If on Mac, use GNU utils first
 if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]
 then
-    export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 fi
 
 ## Create a ~/bin
 mkdir -p ~/.local/bin 2> /dev/null || true
-export PATH="${HOME}/.local/bin:${HOME}/.local/scripts:$PATH"
+PATH="${HOME}/.local/bin:${HOME}/.local/scripts:$PATH"
 
 ## Interactive operation
 alias rm='rm -i'

@@ -1,4 +1,3 @@
 # Golang env
-export GOPATH=$HOME/go
-export PATH="${PATH}:$GOPATH/bin"
-alias g="cd $GOPATH"
+GOPATH=$HOME/go
+PATH="${PATH}:$GOPATH/bin"

@@ -2,7 +2,7 @@
 if [ -d "${HOME}/.fzf/bin" ] && [[ ! "$PATH" == *${HOME}/.fzf/bin* ]]
 then
   FZF_SCRIPTS_DIR="${HOME}/.fzf/shell"
-  export PATH="$PATH:${HOME}/.fzf/bin"
+  PATH="$PATH:${HOME}/.fzf/bin"
 
 # Check if installed system wide
 elif [ -d "/usr/share/fzf" ]
