@@ -59,3 +59,8 @@ function mkcd() {
 function mkproj() {
     mkcd "${HOME}/projects/$1"
 }
+
+# Create temporary dir and cd into it
+function cdtmp {
+    cd $(mktemp -d)
+}
