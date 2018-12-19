@@ -101,6 +101,14 @@ function print_git_info() {
 	fi
 }
 
+function print_k8s_info() {
+
+	local k8s_context="$(kubectl config current-context 2>/dev/null)"
+
+	if [ ! -z "$k8s_context" ]; then
+		echo -n "${PS_COLOR_GOOD}k8s/${PS_COLOR_RHS}${k8s_context}"
+	fi
+}
 function print_knife_info() {
 
 	local current_chef=""
@@ -137,12 +145,13 @@ function set_prompt_symbol() {
 # Ref: https://superuser.com/a/1203400/48807
 function add_rhs_ps1() {
 	local info_git="$(print_git_info)"
+	local info_k8s="$(print_k8s_info)"
 	local info_venv="$(print_virtualenv)"
 	local info_knife="$(print_knife_info)"
 	local info_awsprofile="$(print_aws_info)"
 
 	local rhs_ps1=""
-	for info_snippet in "$info_git" "$info_venv" "$info_knife" "$info_awsprofile"; do
+	for info_snippet in "$info_git" "$info_k8s" "$info_venv" "$info_knife" "$info_awsprofile"; do
 		if [ ! -z "$info_snippet" ]; then
 			if [ ! -z "$rhs_ps1" ]; then
 				rhs_ps1="${rhs_ps1} ${PS_COLOR_SEP}⸗ "
