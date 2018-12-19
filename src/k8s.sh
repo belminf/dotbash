@@ -1,14 +1,14 @@
-# Print function before running it
+# Print command before exec
 function kubectl_alias() {
 	echo "+ kubectl $@"
 	command kubectl $@
 }
 
-# Simple aliases (no need to use kubect_alias)
+# Simple aliases (no need to use kubectl_alias)
 alias k='kubectl'
 alias kg='kubectl get'
 
-# Aliases I want more verbsoe
+# Less obvious aliases; using kubectl_alias
 
 ## Switch context
 alias kc='kubectl_alias config use-context'
