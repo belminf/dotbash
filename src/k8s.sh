@@ -41,12 +41,12 @@ add_completion __kubectl_get_resource_pod kimg
 
 ## Get deployment image
 alias kdimg='kubectl get deployment -o "custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.status.hostIP,IMAGE:.spec.template.spec.containers[*].image"'
-add_completion __kubectl_get_resource_deployment kdimg
+add_completion kubectl_complete_deployments kdimg
 
 ## Kicks off a rolling restart
 ## For annotation, $K8S_DOMAIN in .src/local.sh or defaults to "krestart"
 alias krestart='kubectl_alias patch -p  "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"${K8S_DOMAIN:-krestart}/date\":\"$(date +'%s')\"}}}}}"'
-add_completion __kubectl_get_resource_deployment krestart
+add_completion kubectl_complete_deployments krestart
 
 # Aliases that do not need completion
 
