@@ -28,6 +28,7 @@ alias krestart='kubectl_alias patch -p  "{\"spec\":{\"template\":{\"metadata\":{
 # Auto completion set up
 source <(kubectl completion bash)
 
+## kubectl doesn't include completion for just deployments so creating one
 __kubectl_get_resource_deployment() {
 	__kubectl_parse_get "deployment"
 }
