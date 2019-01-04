@@ -31,10 +31,6 @@ function kubectl_complete_deployments() {
 alias k='kubectl'
 add_completion __start_kubectl k
 
-## Get
-alias kg='kubectl get'
-add_completion __kubectl_get_resource kg
-
 ## Switch context
 alias kc='kubectl_alias config use-context'
 add_completion __kubectl_config_get_contexts kc
