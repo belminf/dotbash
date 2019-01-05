@@ -106,8 +106,12 @@ function print_k8s_info() {
 	local k8s_context="$(kubectl config current-context 2>/dev/null)"
 	local k8s_ns="$(kubectl config view --minify -o jsonpath='{..namespace}' 2>/dev/null)"
 
-	if [ ! -z "$k8s_context" ] && [ ! -z "$k8s_ns" ]; then
-		echo -n "${PS_COLOR_GOOD}k8s/${PS_COLOR_RHS}${k8s_ns}@${k8s_context}"
+	if [[ -n $k8s_context ]]; then
+		if [[ -z $k8s_ns ]] || [ "$k8s_ns" = "default" ]; then
+			echo -n "${PS_COLOR_GOOD}k8s/${PS_COLOR_RHS}${k8s_context}"
+		else
+			echo -n "${PS_COLOR_GOOD}k8s/${PS_COLOR_RHS}${k8s_ns}${PS_COLOR_SEP}:${PS_COLOR_RHS}${k8s_context}"
+		fi
 	fi
 }
 function print_knife_info() {
