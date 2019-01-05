@@ -1,6 +1,6 @@
 # Print command before exec
 function kubectl_alias() {
-	echo "+ kubectl $@"
+	echo >&2 "+ kubectl $@"
 	command kubectl $@
 }
 
