@@ -61,4 +61,4 @@ alias kcl='kubectl_alias config get-contexts'
 alias kpods='kubectl_alias get pods -o wide'
 
 ## List all pods
-alias kallpods='kubectl_alias get pods -o wide --all-namespaces'
+alias kpodsall='kubectl_alias get pods -o wide --all-namespaces'
