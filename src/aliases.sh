@@ -29,6 +29,10 @@ export -f what
 ## Others
 alias tree='tree -C -I "__pycache__|*.pyc"'
 
+# Watch with expansion
+# Ref: https://unix.stackexchange.com/questions/25327/watch-command-alias-expansion
+alias watch='watch '
+
 # Alias vim to nvim if it exists
 if [ -x "$(command -v nvim)" ]; then
 	alias vim='nvim'
