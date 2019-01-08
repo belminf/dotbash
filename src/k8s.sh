@@ -1,5 +1,5 @@
 # Only if kubectl exists
-if hash kubectl2 2>/dev/null; then
+if hash kubectl 2>/dev/null; then
 
 	# Print command before exec
 	function kubectl_alias() {
