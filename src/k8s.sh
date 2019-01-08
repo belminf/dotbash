@@ -1,64 +1,71 @@
-# Print command before exec
-function kubectl_alias() {
-	echo >&2 "+ kubectl $@"
-	command kubectl $@
-}
+# Only if kubectl exists
+if hash kubectl2 2>/dev/null; then
 
-# Setup kubectl completion
-source <(kubectl completion bash)
+	# Print command before exec
+	function kubectl_alias() {
+		echo >&2 "+ kubectl $@"
+		command kubectl $@
+	}
 
-# Add completion
-function add_completion() {
-	local complete_cmd=$1
-	local shell_cmd=$2
+	# Setup kubectl completion
+	source <(kubectl completion bash)
 
-	if [[ $(type -t compopt) == "builtin" ]]; then
-		complete -o default -F $complete_cmd $shell_cmd
-	else
-		complete -o default -o nospace -F $complete_cmd $shell_cmd
-	fi
-}
+	# Add completion
+	function add_completion() {
+		local complete_cmd=$1
+		local shell_cmd=$2
 
-# Complete for deployments
-## kubectl doesn't include completion for just deployments so creating one
-function kubectl_complete_deployments() {
-	__kubectl_parse_get "deployment"
-}
+		if [[ $(type -t compopt) == "builtin" ]]; then
+			complete -o default -F $complete_cmd $shell_cmd
+		else
+			complete -o default -o nospace -F $complete_cmd $shell_cmd
+		fi
+	}
 
-# Aliases that need completion
+	# Complete for deployments
+	## kubectl doesn't include completion for just deployments so creating one
+	function kubectl_complete_deployments() {
+		__kubectl_parse_get "deployment"
+	}
 
-## Shortcut
-alias k='kubectl'
-add_completion __start_kubectl k
+	# Aliases that need completion
 
-## Switch context
-alias kc='kubectl_alias config use-context'
-add_completion __kubectl_config_get_contexts kc
+	## Shortcut
+	alias k='kubectl'
+	add_completion __start_kubectl k
 
-## Switch namespace
-alias kn='kubectl config set-context $(kubectl config current-context) --namespace'
-add_completion __kubectl_get_resource_namespace kn
+	## Switch context
+	alias kc='kubectl_alias config use-context'
+	add_completion __kubectl_config_get_contexts kc
 
-## Get pod image
-alias kimg='kubectl_alias get pods -o "custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.status.hostIP,IMAGE:.spec.containers[*].image"'
-add_completion __kubectl_get_resource_pod kimg
+	## Switch namespace
+	alias kn='kubectl config set-context $(kubectl config current-context) --namespace'
+	add_completion __kubectl_get_resource_namespace kn
 
-## Get deployment image
-alias kdimg='kubectl get deployment -o "custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.status.hostIP,IMAGE:.spec.template.spec.containers[*].image"'
-add_completion kubectl_complete_deployments kdimg
+	## Get pod image
+	alias kimg='kubectl_alias get pods -o "custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.status.hostIP,IMAGE:.spec.containers[*].image"'
+	add_completion __kubectl_get_resource_pod kimg
 
-## Kicks off a rolling restart
-## For annotation, $K8S_DOMAIN in .src/local.sh or defaults to "krestart"
-alias krestart='kubectl_alias patch -p  "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"${K8S_DOMAIN:-krestart}/date\":\"$(date +'%s')\"}}}}}"'
-add_completion kubectl_complete_deployments krestart
+	## Get deployment image
+	alias kdimg='kubectl get deployment -o "custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.status.hostIP,IMAGE:.spec.template.spec.containers[*].image"'
+	add_completion kubectl_complete_deployments kdimg
 
-# Aliases that do not need completion
+	## Kicks off a rolling restart
+	## For annotation, $K8S_DOMAIN in .src/local.sh or defaults to "krestart"
+	alias krestart='kubectl_alias patch -p  "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"${K8S_DOMAIN:-krestart}/date\":\"$(date +'%s')\"}}}}}"'
+	add_completion kubectl_complete_deployments krestart
 
-## List contexts
-alias kcl='kubectl_alias config get-contexts'
+	# Aliases that do not need completion
 
-## List pods in a namespace
-alias kpods='kubectl_alias get pods -o wide'
+	## List contexts
+	alias kcl='kubectl_alias config get-contexts'
 
-## List all pods
-alias kpodsall='kubectl_alias get pods -o wide --all-namespaces'
+	## List pods in a namespace
+	alias kpods='kubectl_alias get pods -o wide'
+
+	## List all pods
+	alias kpodsall='kubectl_alias get pods -o wide --all-namespaces'
+fi
+
+# Completion for stern
+hash stern 2>/dev/null && source <(stern --completion=bash)
