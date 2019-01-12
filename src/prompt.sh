@@ -166,7 +166,11 @@ function add_rhs_ps1() {
 	done
 
 	# Remove formatting to get printable count
-	rhs_ps1_clean="$(echo -n "$rhs_ps1" | sed "s/\\\\\[\x1B\[[^\]*\\\\]//g")"
+	if hash gsed; then
+		rhs_ps1_clean="$(echo -n "$rhs_ps1" | gsed "s/\\\\\[\x1B\[[^\]*\\\\]//g")"
+	else
+		rhs_ps1_clean="$(echo -n "$rhs_ps1" | sed "s/\\\\\[\x1B\[[^\]*\\\\]//g")"
+	fi
 
 	PS1="${PS1}${PS_CURSOR_SAVE}\e[${COLUMNS}C\e[${#rhs_ps1_clean}D${rhs_ps1}${PS_COLOR_RESET}${PS_CURSOR_RESTORE}"
 }
