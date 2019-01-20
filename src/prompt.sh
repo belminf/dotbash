@@ -166,7 +166,7 @@ function add_rhs_ps1() {
 	done
 
 	# Remove formatting to get printable count
-	if hash gsed; then
+	if hash gsed 2>/dev/null; then
 		rhs_ps1_clean="$(echo -n "$rhs_ps1" | gsed "s/\\\\\[\x1B\[[^\]*\\\\]//g")"
 	else
 		rhs_ps1_clean="$(echo -n "$rhs_ps1" | sed "s/\\\\\[\x1B\[[^\]*\\\\]//g")"
