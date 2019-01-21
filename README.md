@@ -6,17 +6,18 @@
 * tmux - terminal multiplexer
 * pipenv - Python virtual environments
 * nvim - Neovim editor
+* kubectx - manage K8s context and namespaces
 
 ## Distro-specific
 ### Arch
 ```
-yay -S --needed direnv fzf tmux python-pipenv neovim bash-completion pkgfile
+yay -S --needed direnv fzf tmux python-pipenv neovim bash-completion pkgfile kubectx
 sudo systemctl enable pkgfile-update.timer
 ```
 
 ### macOS
 ```
-brew install direnv fzf tmux pipenv neovim bash-completion
+brew install direnv fzf tmux pipenv neovim bash-completion kubectx
 brew install gnu-sed --with-default-names
 brew install gnu-which --with-default-names
 $(brew --prefix)/opt/fzf/install

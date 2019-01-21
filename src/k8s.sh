@@ -34,14 +34,6 @@ if hash kubectl 2>/dev/null; then
 	alias k='kubectl'
 	add_completion __start_kubectl k
 
-	## Switch context
-	alias kc='kubectl_alias config use-context'
-	add_completion __kubectl_config_get_contexts kc
-
-	## Switch namespace
-	alias kn='kubectl config set-context $(kubectl config current-context) --namespace'
-	add_completion __kubectl_get_resource_namespace kn
-
 	## Get pod image
 	alias kimg='kubectl_alias get pods -o "custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.status.hostIP,IMAGE:.spec.containers[*].image"'
 	add_completion __kubectl_get_resource_pod kimg
@@ -57,8 +49,9 @@ if hash kubectl 2>/dev/null; then
 
 	# Aliases that do not need completion
 
-	## List contexts
-	alias kcl='kubectl_alias config get-contexts'
+	## Use kubectx for context and ns
+	alias kc='kubectx'
+	alias kn='kubens'
 
 	## List pods in a namespace
 	alias kpods='kubectl_alias get pods -o wide'
