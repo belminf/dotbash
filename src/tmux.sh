@@ -14,7 +14,7 @@ fi
 # Works with my tmux config: https://github.com/belminf/dottmux
 ssh() {
 	if [[ $(ps -p $(ps -p $$ -o ppid=) -o comm=) == tmux* ]]; then
-		tmux rename-window -- "$(echo $* | cut -d . -f 1)"
+		tmux rename-window -- "$*"
 		command ssh "$@"
 		tmux rename-window "bash"
 	else
