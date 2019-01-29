@@ -50,8 +50,13 @@ if hash kubectl 2>/dev/null; then
 	# Aliases that do not need completion
 
 	## Use kubectx for context and ns
-	alias kc='kubectx'
-	alias kn='kubens'
+	if hash kubectx 2>/dev/null; then
+		alias kc='kubectx'
+		complete -F _kube_contexts kc
+
+		alias kn='kubens'
+		complete -F _kube_namespaces kn
+	fi
 
 	## List pods in a namespace
 	alias kpods='kubectl_alias get pods -o wide'
