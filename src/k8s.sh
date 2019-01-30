@@ -63,6 +63,10 @@ if hash kubectl 2>/dev/null; then
 
 	## List all pods
 	alias kpodsall='kubectl_alias get pods -o wide --all-namespaces'
+
+	## List all bad pods
+	alias kpodsbad='kubectl_alias get pods -o wide --all-namespaces --field-selector=status.phase!=Running'
+
 fi
 
 # Completion for stern
