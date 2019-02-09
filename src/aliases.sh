@@ -15,7 +15,7 @@ alias mv='mv -i'
 ## Colors
 alias grep='grep --color'
 alias egrep='egrep --color=auto'
-alias ll='ls -lahF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__"'
+alias ll='LC_COLLATE=C ls -lahF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__"'
 
 ## Which
 what() {
