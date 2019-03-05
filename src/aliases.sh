@@ -1,8 +1,3 @@
-## If on Mac, use GNU utils first
-if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
-	PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-fi
-
 ## Create a ~/bin
 mkdir -p ~/.local/bin 2>/dev/null || true
 PATH="${HOME}/.local/bin:${HOME}/.local/scripts:$PATH"
@@ -15,14 +10,30 @@ alias mv='mv -i'
 ## Colors
 alias grep='grep --color'
 alias egrep='egrep --color=auto'
-alias ll='LC_COLLATE=C ls -lahF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__"'
 
-## Which
+## Set GNU tools
+if hash gls 2>/dev/null; then
+	GNU_LS='gls'
+else
+	GNU_LS='ls'
+fi
+if hash gwhich 2>/dev/null; then
+	GNU_WHICH='gwhich'
+else
+	GNU_WHICH='which'
+fi
+
+## ll
+ll() {
+	LC_COLLATE=C $GNU_LS -lahF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__"
+}
+
+## what
 what() {
 	(
 		alias
 		declare -f
-	) | which --tty-only --read-alias --read-functions --show-tilde --show-dot $@
+	) | $GNU_WHICH --tty-only --read-alias --read-functions --show-tilde --show-dot $@
 }
 export -f what
 
@@ -52,7 +63,7 @@ function cd() {
 
 	# path isn't a file so just cd
 	else
-		builtin cd "${new_directory}" && ls -1hF --group-directories-first --color=always --hide="*.pyc" --hide="__pycache__" | head -n 20
+		builtin cd "${new_directory}" && $GNU_LS -1hF --group-directories-first --color=always --hide="*.pyc" --hide="__pycache__" | head -n 20
 	fi
 }
 
