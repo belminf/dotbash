@@ -67,6 +67,12 @@ if hash kubectl 2>/dev/null; then
 	## List all bad pods
 	alias kpodsbad='kubectl_alias get pods -o wide --all-namespaces --field-selector=status.phase!=Running'
 
+	## All namespaces
+	function ka() {
+		kubectl_alias ${1} --all-namespaces ${@:2}
+	}
+
+	## Decode secret
 	function ksecret() {
 		kubectl_alias get secret ${@:1:${#}-1} -o=jsonpath="{.data.$(echo ${*: -1} | sed 's/\./\\./')}" | base64 -D
 	}
