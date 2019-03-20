@@ -24,12 +24,12 @@ else
 fi
 
 ## ll
-ll() {
+function ll() {
 	LC_COLLATE=C $GNU_LS -lahF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__"
 }
 
 ## what
-what() {
+function what() {
 	(
 		alias
 		declare -f
