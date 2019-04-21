@@ -7,17 +7,18 @@
 * pipenv - Python virtual environments
 * nvim - Neovim editor
 * kubectx - manage K8s context and namespaces
+* ripgrep - better grep
 
 ## Distro-specific
 ### Arch
 ```
-yay -S --needed direnv fzf tmux python-pipenv neovim bash-completion pkgfile kubectx
+yay -S --needed direnv fzf tmux python-pipenv neovim bash-completion pkgfile kubectx ripgrep
 sudo systemctl enable pkgfile-update.timer
 ```
 
 ### macOS
 ```
-brew install direnv fzf tmux pipenv neovim bash-completion kubectx gnu-sed gnu-which
+brew install direnv fzf tmux pipenv neovim bash-completion kubectx gnu-sed gnu-which ripgrep
 $(brew --prefix)/opt/fzf/install
 ```
 ## Clone config

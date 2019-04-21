@@ -5,3 +5,5 @@ for s in $HOME/.bash/src/*.sh
 do
   source $s
 done
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

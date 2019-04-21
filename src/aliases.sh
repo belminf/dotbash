@@ -37,18 +37,19 @@ function what() {
 }
 export -f what
 
-## vim files that match
-function agv() {
-	FILES=$(ag -l $*)
-
-	if [ -z "$FILES" ]; then
-		echo 'Empty search results'
-		exit 1
-	fi
-
-	# ASSERT: Not empty serarch results
-	nvim $FILES || vim $FILES
+## vim files using rg
+function vf() {
+	nvim $(rg --files | fzf)
 }
+
+function vg() {
+	nvim $(rg -l $* | fzf)
+}
+
+function vga() {
+	nvim $(rg -l $*)
+}
+
 
 ## Others
 alias tree='tree -C -I "__pycache__|*.pyc"'

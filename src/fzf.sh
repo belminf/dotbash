@@ -21,3 +21,6 @@ if [ ! -z "${FZF_SCRIPTS_DIR}" ]; then
 	bind "$(bind -s | grep '^"\\ec"' | sed 's/ec/C-q/')"
 	[[ $- =~ i ]] && bind '"\ec": nop'
 fi
+
+# Use rg
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
