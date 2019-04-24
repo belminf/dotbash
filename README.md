@@ -12,13 +12,13 @@
 ## Distro-specific
 ### Arch
 ```
-yay -S --needed direnv fzf tmux python-pipenv neovim bash-completion pkgfile kubectx ripgrep
+yay -S --needed direnv fzf tmux python-pipenv neovim bash-completion pkgfile kubectx ripgrep bat
 sudo systemctl enable pkgfile-update.timer
 ```
 
 ### macOS
 ```
-brew install direnv fzf tmux pipenv neovim bash-completion kubectx gnu-sed gnu-which ripgrep
+brew install direnv fzf tmux pipenv neovim bash-completion kubectx gnu-sed gnu-which ripgrep bat
 $(brew --prefix)/opt/fzf/install
 ```
 ## Clone config

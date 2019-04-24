@@ -50,7 +50,6 @@ function vga() {
 	nvim $(rg -l $*)
 }
 
-
 ## Others
 alias tree='tree -C -I "__pycache__|*.pyc"'
 
@@ -58,9 +57,14 @@ alias tree='tree -C -I "__pycache__|*.pyc"'
 # Ref: https://unix.stackexchange.com/questions/25327/watch-command-alias-expansion
 alias watch='watch '
 
-# Alias vim to nvim if it exists
-if [ -x "$(command -v nvim)" ]; then
+# vim to nvim if it exists
+if hash nvim 2>/dev/null; then
 	alias vim='nvim'
+fi
+
+# cat to bat if it exists
+if hash bat 2>/dev/null; then
+	alias cat='bat'
 fi
 
 # cd prints a list after switching
