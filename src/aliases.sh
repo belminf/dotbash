@@ -51,6 +51,20 @@ function vga() {
 }
 
 ## Others
+
+# Clipboard copy
+function cb() {
+
+	# x11 - Arch
+	if hash xclip; then
+		cat $1 | xclip -selection clipboard
+
+	# macOS
+	else
+		cat $1 | pbcopy
+	fi
+}
+
 alias tree='tree -C -I "__pycache__|*.pyc"'
 
 # Watch with expansion
