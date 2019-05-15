@@ -39,7 +39,7 @@ export -f what
 
 ## vim files using rg
 function vf() {
-	nvim $(rg --files | fzf)
+	nvim $(rg --files -u | fzf -1 -q "$*")
 }
 
 function vg() {
