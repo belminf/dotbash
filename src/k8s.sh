@@ -3,8 +3,8 @@ if hash kubectl 2>/dev/null; then
 
 	# Print command before exec
 	function kubectl_alias() {
-		echo >&2 "+ kubectl $@"
-		command kubectl $@
+		echo >&2 "+ kubectl $*"
+		command kubectl "$@"
 	}
 
 	# Setup kubectl completion
@@ -16,9 +16,9 @@ if hash kubectl 2>/dev/null; then
 		local shell_cmd=$2
 
 		if [[ $(type -t compopt) == "builtin" ]]; then
-			complete -o default -F $complete_cmd $shell_cmd
+			complete -o default -F "$complete_cmd" "$shell_cmd"
 		else
-			complete -o default -o nospace -F $complete_cmd $shell_cmd
+			complete -o default -o nospace -F "$complete_cmd" "$shell_cmd"
 		fi
 	}
 
@@ -69,12 +69,16 @@ if hash kubectl 2>/dev/null; then
 
 	## All namespaces
 	function ka() {
-		kubectl_alias ${1} --all-namespaces ${@:2}
+		kubectl_alias "$1" --all-namespaces "${@:2}"
+	}
+
+	function kag() {
+		ka get "$@"
 	}
 
 	## Decode secret
 	function ksecret() {
-		kubectl_alias get secret ${@:1:${#}-1} -o=jsonpath="{.data.$(echo ${*: -1} | sed 's/\./\\./')}" | base64 -D
+		kubectl_alias get secret "${@:1:${#}-1}" -o=jsonpath="{.data.$(echo ${*: -1} | sed 's/\./\\./')}" | base64 -D
 	}
 fi
 

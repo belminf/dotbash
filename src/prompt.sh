@@ -1,5 +1,6 @@
 # Disable virtualenv PS
 VIRTUAL_ENV_DISABLE_PROMPT=1
+export VIRTUAL_ENV_DISABLE_PROMPT
 
 # Load VTE conf if exists
 if [ -f /etc/profile.d/vte.sh ]; then
@@ -66,8 +67,10 @@ function print_git_info() {
 	# See if we're in a git repo
 	if git branch >/dev/null 2>&1; then
 
+		local git_status
+
 		# Capture the output of the "git status" command.
-		local git_status="$(git status 2>/dev/null)"
+		git_status="$(git status 2>/dev/null)"
 
 		# Set color based on clean/staged/dirty.
 		if [[ ${git_status} =~ $PS_GIT_CLEAN_RE ]]; then
@@ -103,8 +106,10 @@ function print_git_info() {
 
 function print_k8s_info() {
 
-	local k8s_context="$(kubectl config current-context 2>/dev/null)"
-	local k8s_ns="$(kubectl config view --minify -o jsonpath='{..namespace}' 2>/dev/null)"
+	local k8s_context k8s_ns
+
+	k8s_context="$(kubectl config current-context 2>/dev/null)"
+	k8s_ns="$(kubectl config view --minify -o jsonpath='{..namespace}' 2>/dev/null)"
 
 	if [[ -n $k8s_context ]]; then
 		if [[ -z $k8s_ns ]] || [ "$k8s_ns" = "default" ]; then
@@ -116,7 +121,7 @@ function print_k8s_info() {
 }
 function print_knife_info() {
 
-	local current_chef=""
+	local current_chef
 
 	if [ -f ".chef/knife.rb" ] && [ ! ./ -ef ~ ]; then
 		current_chef="$(grep chef_server_url .chef/knife.rb 2>/dev/null | awk -F[/:] '{print $4}')"
@@ -126,13 +131,13 @@ function print_knife_info() {
 		current_chef="$(_knife-block_ps1)"
 	fi
 
-	if [ ! -z "$current_chef" ]; then
+	if [ -n "$current_chef" ]; then
 		echo -n "${PS_COLOR_GOOD}knf/${PS_COLOR_RHS}${current_chef}"
 	fi
 }
 
 function print_aws_info() {
-	if [ ! -z "$AWS_PROFILE" ]; then
+	if [ -n "$AWS_PROFILE" ]; then
 		echo -n "${PS_COLOR_GOOD}aws/${PS_COLOR_RHS}${AWS_PROFILE}"
 	fi
 }
@@ -149,16 +154,18 @@ function set_prompt_symbol() {
 # Add context to the RHS
 # Ref: https://superuser.com/a/1203400/48807
 function add_rhs_ps1() {
-	local info_git="$(print_git_info)"
-	local info_k8s="$(print_k8s_info)"
-	local info_venv="$(print_virtualenv)"
-	local info_knife="$(print_knife_info)"
-	local info_awsprofile="$(print_aws_info)"
+	local info_git info_k8s info_venv info_knife info_awsprofile
+
+	info_git="$(print_git_info)"
+	info_k8s="$(print_k8s_info)"
+	info_venv="$(print_virtualenv)"
+	info_knife="$(print_knife_info)"
+	info_awsprofile="$(print_aws_info)"
 
 	local rhs_ps1=""
 	for info_snippet in "$info_git" "$info_k8s" "$info_venv" "$info_knife" "$info_awsprofile"; do
-		if [ ! -z "$info_snippet" ]; then
-			if [ ! -z "$rhs_ps1" ]; then
+		if [ -n "$info_snippet" ]; then
+			if [ -n "$rhs_ps1" ]; then
 				rhs_ps1="${rhs_ps1} ${PS_COLOR_SEP}⸗ "
 			fi
 			rhs_ps1="${rhs_ps1}${info_snippet}"

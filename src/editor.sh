@@ -1,4 +1,6 @@
 # Editor env
-export PAGER=$(\which less)
-export EDITOR=$(\which nvim)
+PAGER=$(command -v less)
+export PAGER
+EDITOR=$(command -v nvim)
+export EDITOR
 export LESS='-XRF'

@@ -13,7 +13,7 @@ elif [ -d "/usr/local/opt/fzf" ]; then
 fi
 
 # Source FZF bash files
-if [ ! -z "${FZF_SCRIPTS_DIR}" ]; then
+if [ -n "${FZF_SCRIPTS_DIR}" ]; then
 	source "${FZF_SCRIPTS_DIR}/completion.bash"
 	source "${FZF_SCRIPTS_DIR}/key-bindings.bash"
 

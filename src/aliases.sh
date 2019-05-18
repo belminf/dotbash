@@ -33,21 +33,21 @@ function what() {
 	(
 		alias
 		declare -f
-	) | $GNU_WHICH --tty-only --read-alias --read-functions --show-tilde --show-dot $@
+	) | $GNU_WHICH --tty-only --read-alias --read-functions --show-tilde --show-dot "$@"
 }
 export -f what
 
 ## vim files using rg
 function vf() {
-	nvim $(rg --files -u | fzf -1 -q "$*")
+	nvim "$(rg --files -u | fzf -1 -q "$@")"
 }
 
 function vg() {
-	nvim $(rg -l $* | fzf)
+	nvim "$(rg -l "$@" | fzf)"
 }
 
 function vga() {
-	nvim $(rg -l $*)
+	nvim "$(rg -l "$@")"
 }
 
 ## Others
@@ -57,11 +57,11 @@ function cb() {
 
 	# x11 - Arch
 	if hash xclip; then
-		cat $1 | xclip -selection clipboard
+		xclip -selection clipboard <"$1"
 
 	# macOS
 	else
-		cat $1 | pbcopy
+		pbcopy <"$1"
 	fi
 }
 
@@ -90,8 +90,8 @@ function cd() {
 
 	# If directory arg is a file, cd into dir and vim file
 	if [ -f "${new_directory}" ]; then
-		cd $(dirname "${new_directory}")
-		vim $(basename "${new_directory}")
+		cd "$(dirname "${new_directory}")" || return
+		vim "$(basename "${new_directory}")"
 
 	# path isn't a file so just cd
 	else
@@ -101,7 +101,7 @@ function cd() {
 
 # Make dir and CD into it
 function mkcd() {
-	mkdir -p "$@" && cd "$@"
+	mkdir -p "$@" && cd "$@" || return
 }
 
 # Make a subdir in projects and cd to it
@@ -111,5 +111,5 @@ function mkproj() {
 
 # Create temporary dir and cd into it
 function cdtmp() {
-	cd $(mktemp -d)
+	cd "$(mktemp -d)" || return
 }
