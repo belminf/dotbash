@@ -56,7 +56,7 @@ function vga() {
 function clip() {
 
 	# x11 - Arch
-	if hash xclip; then
+	if hash xclip 2>/dev/null; then
 		xclip -selection clipboard <"$1"
 
 	# macOS
