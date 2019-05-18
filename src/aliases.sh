@@ -53,7 +53,7 @@ function vga() {
 ## Others
 
 # Clipboard copy
-function cb() {
+function clip() {
 
 	# x11 - Arch
 	if hash xclip; then
