@@ -59,10 +59,10 @@ if hash kubectl 2>/dev/null; then
 	fi
 
 	## List pods in a namespace
-	alias kpods='kubectl_alias get pods -o wide'
+	alias kp='kubectl_alias get pods -o wide'
 
 	## List all pods
-	alias kpodsall='kubectl_alias get pods -o wide --all-namespaces'
+	alias kap='kubectl_alias get pods -o wide --all-namespaces'
 
 	## List all bad pods
 	function kbad() {
