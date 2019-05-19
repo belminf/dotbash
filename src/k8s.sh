@@ -65,7 +65,13 @@ if hash kubectl 2>/dev/null; then
 	alias kpodsall='kubectl_alias get pods -o wide --all-namespaces'
 
 	## List all bad pods
-	alias kpodsbad='kubectl_alias get pods -o wide --all-namespaces --field-selector=status.phase!=Running'
+	function kbad() {
+		echo "PODS:"
+		kubectl get pods --all-namespaces -o wide | awk '$4 == "STATUS" || $4 != "Running" p'
+		echo
+		echo "DEPLOYMENTS:"
+		kubectl get deployments --all-namespaces | awk '$1 == "NAMESPACE" || $3 != $5 || $3 != $6 p'
+	}
 
 	## All namespaces
 	function ka() {
