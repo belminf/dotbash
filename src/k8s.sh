@@ -1,92 +1,108 @@
 # Only if kubectl exists
 if hash kubectl 2>/dev/null; then
 
-	# Print command before exec
-	function kubectl_alias() {
-		echo >&2 "+ kubectl $*"
-		command kubectl "$@"
-	}
-
-	# Setup kubectl completion
+	# Setup completion
 	source <(kubectl completion bash)
+	hash stern 2>/dev/null && source <(stern --completion=bash)
 
 	# Add completion
 	function add_completion() {
-		local complete_cmd=$1
-		local shell_cmd=$2
+		local shell_cmd
+		shell_cmd=$1
 
 		if [[ $(type -t compopt) == "builtin" ]]; then
-			complete -o default -F "$complete_cmd" "$shell_cmd"
+			complete -o default -F "_complete_alias" "$shell_cmd"
 		else
-			complete -o default -o nospace -F "$complete_cmd" "$shell_cmd"
+			complete -o default -o nospace -F "_complete_alias" "$shell_cmd"
 		fi
 	}
 
-	# Complete for deployments
-	## kubectl doesn't include completion for just deployments so creating one
-	function kubectl_complete_deployments() {
-		__kubectl_parse_get "deployment"
-	}
-
-	# Aliases that need completion
-
-	## Shortcut
+	## Shortcuts
 	alias k='kubectl'
-	add_completion __start_kubectl k
+	add_completion k
 
-	## Get pod image
-	alias kimg='kubectl_alias get pods -o "custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.status.hostIP,IMAGE:.spec.containers[*].image"'
-	add_completion __kubectl_get_resource_pod kimg
+	alias kg='kubectl get'
+	add_completion kg
 
-	## Get deployment image
-	alias kdimg='kubectl get deployment -o "custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.status.hostIP,IMAGE:.spec.template.spec.containers[*].image"'
-	add_completion kubectl_complete_deployments kdimg
+	alias kga='kubectl get --all-namespaces'
+	add_completion kga
 
-	## Kicks off a rolling restart
-	## For annotation, $K8S_DOMAIN in .src/local.sh or defaults to "krestart"
-	alias krestart='kubectl_alias patch -p  "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"${K8S_DOMAIN:-krestart}/date\":\"$(date +'%s')\"}}}}}"'
-	add_completion kubectl_complete_deployments krestart
+	alias ky='kubectl get -o yaml'
+	add_completion ky
 
-	# Aliases that do not need completion
+	alias kya='kubectl get --all-namespaces -o yaml'
+	add_completion kya
 
-	## Use kubectx for context and ns
-	if hash kubectx 2>/dev/null; then
-		alias kc='kubectx'
-		complete -F _kube_contexts kc
+	alias kd='kubectl describe'
+	add_completion kd
 
-		alias kn='kubens'
-		complete -F _kube_namespaces kn
-	fi
+	alias kda='kubectl describe --all-namespaces'
+	add_completion kda
 
-	## List pods in a namespace
-	alias kp='kubectl_alias get pods -o wide'
+	alias kl='kubectl logs'
+	add_completion kl
 
-	## List all pods
-	alias kap='kubectl_alias get pods -o wide --all-namespaces'
+	alias kla='kubectl logs --all-namespaces'
+	add_completion kla
 
-	## List all bad pods
+	## Context
+	alias kc='kubectx'
+	add_completion kc
+
+	alias kn='kubens'
+	add_completion kn
+
+	### Grep shortcuts
+	function __kgrep() {
+		if [ "$#" -eq 1 ]; then
+			echo >&2 "+${1}"
+			eval "$1"
+		elif [ "$#" -eq 2 ]; then
+			echo >&2 "+${1}"
+			eval "$1" | rg "$2"
+		else
+			return 1
+		fi
+	}
+
+	function kpods() {
+		__kgrep 'kubectl get pods --all-namespaces' "$@"
+	}
+
+	function kall() {
+		__kgrep 'kubectl get all,secret,pvc,role,rolebinding,pv,clusterrole,clusterrolebinding --all-namespaces -o custom-columns=":.metadata.namespace,:.kind,:.metadata.name" | column -t' "$@"
+	}
+
+	function kimg() {
+		__kgrep 'kubectl get pods --all-namespaces -o custom-columns="NAME:.metadata.name,STATUS:.status.phase,NODE:.status.hostIP,IMAGE:.spec.containers[*].image" | column -t' "$@"
+	}
+
+	## Common ops commands
+
+	### Bad pods and deployments
 	function kbad() {
-		echo "PODS:"
-		kubectl get pods --all-namespaces -o wide | awk '$4 == "STATUS" || $4 != "Running" p'
+		kubectl get pods --all-namespaces -o wide | awk '{ if ($1 == "NAMESPACE") { $1="PODS"; } else { $1=$1"/"$2 } }; { split($3, READY, "/"); if (($4 == "Running" && READY[1] != READY[2]) || $4 !~ /Running|Completed/) { print $1,$3,$4,$5,$6,$8}}' | column -t
 		echo
-		echo "DEPLOYMENTS:"
-		kubectl get deployments --all-namespaces | awk '$1 == "NAMESPACE" || $3 != $5 || $3 != $6 p'
+		kubectl get deployments --all-namespaces | awk '{  if ($1 == "NAMESPACE") { $1="DEPLOYMENTS"; PODS="PODS"; AVAIL="AVAILABLE" } else { $1=$1"/"$2; PODS=$3; AVAIL=$5"/"$4; split($3, READY, "/")} }; $1=="DEPLOYMENTS" || !and(READY[1],READY[2],$4,$5) { print $1,PODS,AVAIL,$6 }' | column -t
 	}
 
-	## All namespaces
-	function ka() {
-		kubectl_alias "$1" --all-namespaces "${@:2}"
-	}
-
-	function kag() {
-		ka get "$@"
-	}
-
-	## Decode secret
+	### Decode secret
 	function ksecret() {
-		kubectl_alias get secret "${@:1:${#}-1}" -o=jsonpath="{.data.$(echo ${*: -1} | sed 's/\./\\./')}" | base64 -D
-	}
-fi
+		local selected_secret_line selected_ns selected_secret selected_data
 
-# Completion for stern
-hash stern 2>/dev/null && source <(stern --completion=bash)
+		if [ "$#" -eq 1 ]; then
+			selected_secret_line="$(kubectl get secret --all-namespaces -o go-template -o template='{{ range $i := .items }}{{ range $f,$v := .data }}{{ printf "%s %s %s\n" $i.metadata.namespace $i.metadata.name $f }}{{end}}{{end}}' | column -t | fzf -q "$1")"
+		elif [ "$#" -eq 0 ]; then
+			selected_secret_line="$(kubectl get secret --all-namespaces -o go-template -o template='{{ range $i := .items }}{{ range $f,$v := .data }}{{ printf "%s %s %s\n" $i.metadata.namespace $i.metadata.name $f }}{{end}}{{end}}' | column -t | fzf)"
+		fi
+
+		selected_ns="$(awk '{ print $1 }' <<<"$selected_secret_line")"
+		selected_secret="$(awk '{ print $2 }' <<<"$selected_secret_line")"
+		selected_data="$(awk '{ print $3 }' <<<"$selected_secret_line")"
+
+		echo "[${selected_ns}/${selected_secret}: ${selected_data}]"
+		echo ""
+		kubectl get secret -n "$selected_ns" "$selected_secret" -o jsonpath --template="{.data.$(sed 's/\./\\./g' <<<"$selected_data")}" | base64 -d
+	}
+
+fi
