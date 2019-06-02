@@ -13,7 +13,7 @@ fi
 # Renames SSH window name to last arg (presumably hostname)
 # Works with my tmux config: https://github.com/belminf/dottmux
 ssh() {
-	if [[ "$(ps -p "$(ps -p $$ -o ppid=)" -o comm=)" == tmux* ]]; then
+	if [[ "$(ps -p "$(ps --no-headers -o ppid:1 $$)" -o comm=)" == tmux* ]]; then
 		tmux rename-window -- "$*"
 		command ssh "$@"
 		tmux rename-window "bash"
