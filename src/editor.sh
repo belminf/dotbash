@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Editor env
 PAGER=$(command -v less)
 export PAGER

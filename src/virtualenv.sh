@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Virtualenv
 if command -v virtualenvwrapper.sh >/dev/null 2>&1; then
 	export WORKON_HOME=$HOME/.virtualenvs

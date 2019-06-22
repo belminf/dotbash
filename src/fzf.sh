@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # If this is a user setup, add to PATH
 if [ -d "${HOME}/.fzf/bin" ] && [[ $PATH != *${HOME}/.fzf/bin* ]]; then
 	FZF_SCRIPTS_DIR="${HOME}/.fzf/shell"

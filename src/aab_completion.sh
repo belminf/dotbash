@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Source bash-completion if available
 
 ## Arch

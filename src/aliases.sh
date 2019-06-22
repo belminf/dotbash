@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ## Create a ~/bin
 mkdir -p ~/.local/bin 2>/dev/null || true
 PATH="${HOME}/.local/bin:${HOME}/.local/scripts:$PATH"

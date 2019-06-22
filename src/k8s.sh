@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Only if kubectl exists
 if hash kubectl 2>/dev/null; then
 

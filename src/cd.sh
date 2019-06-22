@@ -1,3 +1,5 @@
+#!/bin/bash
+
 shopt -s cdable_vars
 
 # CD path
