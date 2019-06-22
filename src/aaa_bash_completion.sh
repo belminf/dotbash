@@ -406,7 +406,7 @@ _set_default_completion() {
             complete -F _longopt "$cmd"
             ;;
         *)
-            _completion_loader "$cmd"
+            #_completion_loader "$cmd"
             ;;
     esac
 }
