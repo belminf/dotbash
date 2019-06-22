@@ -13,6 +13,9 @@ alias mv='mv -i'
 alias grep='grep --color'
 alias egrep='egrep --color=auto'
 
+# Ripgrep options
+alias rg='rg -S'
+
 ## Set GNU tools
 if hash gls 2>/dev/null; then
 	GNU_LS='gls'
