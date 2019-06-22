@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Fixes ssh-agent issue with tmux
 export SSH_AUTH_SOCK="${SSH_AUTH_SOCK:-${HOME}/.ssh/.auth_sock.$(hostname)}"
 
@@ -12,8 +14,10 @@ fi
 
 # Renames SSH window name to last arg (presumably hostname)
 # Works with my tmux config: https://github.com/belminf/dottmux
-ssh() {
-	if [[ "$(ps -p "$(ps --no-headers -o ppid:1 $$)" -o comm=)" == tmux* ]]; then
+function ssh() {
+	local parent_name
+	parent_name="$(ps -p "$(ps -o ppid= $$ 2>/dev/null | xargs)" -o comm=)"
+	if [[ $parent_name == tmux* ]]; then
 		tmux rename-window -- "$*"
 		command ssh "$@"
 		tmux rename-window "bash"
