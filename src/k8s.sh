@@ -81,6 +81,9 @@ if hash kubectl 2>/dev/null; then
 
 	## Common ops commands
 
+        ### RBAC bindings
+        alias krbac="kubectl get rolebindings,clusterrolebindings --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects[?(@.kind==\"ServiceAccount\")].name'"
+
 	### Bad pods and deployments
 	function kbad() {
 		kubectl get pods --all-namespaces -o wide | awk '{ if ($1 == "NAMESPACE") { $1="PODS"; } else { $1=$1"/"$2 } }; { split($3, READY, "/"); if (($4 == "Running" && READY[1] != READY[2]) || $4 !~ /Running|Completed/) { print $1,$3,$4,$5,$6,$8}}' | column -t
