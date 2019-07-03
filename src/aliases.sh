@@ -52,7 +52,8 @@ function vg() {
 }
 
 function vga() {
-	nvim "$(rg -l "$@")"
+	# shellcheck disable=SC2046
+	nvim $(rg -l "$@" | tr '\n' ' ')
 }
 
 ## Others
