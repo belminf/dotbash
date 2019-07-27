@@ -139,7 +139,9 @@ function print_knife_info() {
 }
 
 function print_aws_info() {
-	if [ -n "$AWS_PROFILE" ]; then
+	if [ -n "$AWS_DEFAULT_PROFILE" ]; then
+		echo -n "${PS_COLOR_GOOD}aws/${PS_COLOR_RHS}${AWS_DEFAULT_PROFILE}"
+	elif [ -n "$AWS_PROFILE" ]; then
 		echo -n "${PS_COLOR_GOOD}aws/${PS_COLOR_RHS}${AWS_PROFILE}"
 	fi
 }
