@@ -74,7 +74,7 @@ if hash kubectl 2>/dev/null; then
   }
 
   function kpods() {
-    __kgrep 'kubectl get pods' "$@"
+    __kgrep "kubectl get pods" "$1"
   }
 
   function kall() {
