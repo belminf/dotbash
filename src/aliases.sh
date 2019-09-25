@@ -18,42 +18,42 @@ alias rg='rg -S'
 
 ## Set GNU tools
 if hash gls 2>/dev/null; then
-	GNU_LS='gls'
+  GNU_LS='gls'
 else
-	GNU_LS='ls'
+  GNU_LS='ls'
 fi
 if hash gwhich 2>/dev/null; then
-	GNU_WHICH='gwhich'
+  GNU_WHICH='gwhich'
 else
-	GNU_WHICH='which'
+  GNU_WHICH='which'
 fi
 
 ## ll
 function ll() {
-	LC_COLLATE=C $GNU_LS -lahF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__"
+  LC_COLLATE=C $GNU_LS -lahF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__"
 }
 
 ## what
 function what() {
-	(
-		alias
-		declare -f
-	) | $GNU_WHICH --tty-only --read-alias --read-functions --show-tilde --show-dot "$@"
+  (
+    alias
+    declare -f
+  ) | $GNU_WHICH --tty-only --read-alias --read-functions --show-tilde --show-dot "$@"
 }
 export -f what
 
 ## vim files using rg
 function vf() {
-	nvim "$(rg --files -u | fzf -1 -q "$@")"
+  nvim "$(rg --files -u | fzf -1 -q "$@")"
 }
 
 function vg() {
-	nvim "$(rg -l "$@" | fzf)"
+  nvim "$(rg -l "$@" | fzf)"
 }
 
 function vga() {
-	# shellcheck disable=SC2046
-	nvim $(rg -l "$@" | tr '\n' ' ')
+  # shellcheck disable=SC2046
+  nvim $(rg -l "$@" | tr '\n' ' ')
 }
 
 ## Others
@@ -61,14 +61,14 @@ function vga() {
 # Clipboard copy
 function clip() {
 
-	# x11 - Arch
-	if hash xclip 2>/dev/null; then
-		xclip -selection clipboard <"$1"
+  # x11 - Arch
+  if hash xclip 2>/dev/null; then
+    xclip -selection clipboard <"$1"
 
-	# macOS
-	else
-		pbcopy <"$1"
-	fi
+  # macOS
+  else
+    pbcopy <"$1"
+  fi
 }
 
 alias tree='tree -C -I "__pycache__|*.pyc"'
@@ -79,43 +79,43 @@ alias watch='watch '
 
 # vim to nvim if it exists
 if hash nvim 2>/dev/null; then
-	alias vim='nvim'
+  alias vim='nvim'
 fi
 
 # cat to bat if it exists
 if hash bat 2>/dev/null; then
-	alias cat='bat'
+  alias cat='bat'
 fi
 
 # cd prints a list after switching
 function cd() {
-	local new_directory="$*"
-	if [ $# -eq 0 ]; then
-		new_directory=${HOME}
-	fi
+  local new_directory="$*"
+  if [ $# -eq 0 ]; then
+    new_directory=${HOME}
+  fi
 
-	# If directory arg is a file, cd into dir and vim file
-	if [ -f "${new_directory}" ]; then
-		cd "$(dirname "${new_directory}")" || return
-		vim "$(basename "${new_directory}")"
+  # If directory arg is a file, cd into dir and vim file
+  if [ -f "${new_directory}" ]; then
+    cd "$(dirname "${new_directory}")" || return
+    vim "$(basename "${new_directory}")"
 
-	# path isn't a file so just cd
-	else
-		builtin cd "${new_directory}" && $GNU_LS -1hF --group-directories-first --color=always --hide="*.pyc" --hide="__pycache__" | head -n 20
-	fi
+  # path isn't a file so just cd
+  else
+    builtin cd "${new_directory}" && $GNU_LS -1hF --group-directories-first --color=always --hide="*.pyc" --hide="__pycache__" | head -n 20
+  fi
 }
 
 # Make dir and CD into it
 function mkcd() {
-	mkdir -p "$@" && cd "$@" || return
+  mkdir -p "$@" && cd "$@" || return
 }
 
 # Make a subdir in projects and cd to it
 function mkproj() {
-	mkcd "${HOME}/projects/$1"
+  mkcd "${HOME}/projects/$1"
 }
 
 # Create temporary dir and cd into it
 function cdtmp() {
-	cd "$(mktemp -d)" || return
+  cd "$(mktemp -d)" || return
 }
