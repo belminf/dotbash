@@ -1,23 +1,9 @@
 #!/bin/bash
 
-# Renames SSH window name to last arg (presumably hostname)
-# Works with my tmux config: https://github.com/belminf/dottmux
-function ssh() {
-  local parent_name
-  parent_name="$(ps -p "$(ps -o ppid= $$ 2>/dev/null | xargs)" -o comm=)"
-  if [[ $parent_name == tmux* ]]; then
-    tmux rename-window -- "$*"
-    command ssh "$@"
-    tmux rename-window "bash"
-  else
-    command ssh "$@"
-  fi
-}
-
 function tmux-ssh() {
   local tmux_cmd ssh_cmd finish_tmux_setup
 
-  ssh_cmd="ssh -o ServerAliveInterval=60"
+  ssh_cmd="ssh"
   finish_tmux_setup=false
 
   # Exit if I don't have args
@@ -45,9 +31,7 @@ function tmux-ssh() {
   [[ $finish_tmux_setup ]] || return
 
   tmux select-layout tiled
-  tmux set-window-option allow-rename off
   tmux set-window-option window-status-format "#F:#I:mssh:%1"
   tmux set-window-option window-status-current-format "#F:#I:mssh:%1"
   tmux set-window-option synchronize-panes
-
 }
