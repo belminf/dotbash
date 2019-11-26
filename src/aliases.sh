@@ -30,7 +30,7 @@ fi
 
 ## ll
 function ll() {
-  LC_COLLATE=C $GNU_LS -lahF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__"
+  LC_COLLATE=C $GNU_LS -lahF --group-directories-first --color=tty --hide="*.pyc" --hide="__pycache__" "$@"
 }
 
 ## what
