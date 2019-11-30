@@ -110,7 +110,8 @@ function print_k8s_info() {
 
   local k8s_context k8s_ns
 
-  k8s_context="$(kubectl config current-context 2>/dev/null)"
+  # Remove GKE label if there
+  k8s_context="$(kubectl config current-context 2>/dev/null | sed 's/gke_\([^_]*_\)\{2\}//')"
   k8s_ns="$(kubectl config view --minify -o jsonpath='{..namespace}' 2>/dev/null)"
 
   if [[ -n $k8s_context ]]; then
