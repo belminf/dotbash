@@ -94,7 +94,7 @@ if hash kubectl 2>/dev/null; then
   function kbad() {
     kubectl get pods --all-namespaces -o wide | $GNU_AWK '{ if ($1 == "NAMESPACE") { $1="PODS"; } else { $1=$1"/"$2 } }; { split($3, READY, "/"); if (($4 == "Running" && READY[1] != READY[2]) || $4 !~ /Running|Completed/) { print $1,$3,$4,$5,$6,$8}}' | column -t
     echo
-    kubectl get deployments --all-namespaces | $GNU_AWK '{  if ($1 == "NAMESPACE") { $1="DEPLOYMENTS"; TARGET="TARGET"; READY="READY" } else { $1=$1"/"$2; TARGET=$3; READY=$5"/"$6; }} $1=="DEPLOYMENTS" || !(($3 == $5) && ($5 == $6)) { print $1,TARGET,READY }' | column -t
+    kubectl get deployments --all-namespaces | $GNU_AWK '{  if ($1 == "NAMESPACE") { $1="DEPLOYMENTS"; TARGET="TARGET"; UPDATED="UPDATED"; AVAIL="AVAIL" } else { $1=$1"/"$2; TARGET=$3; split($3,TARGET_A,"/"); UPDATED=$4; AVAIL=$5; }} $1=="DEPLOYMENTS" || !(($TARGET_A[1] == $TARGET_A[2]) && ($UPDATED == $TARGET_A[2]) && ($AVAIL == $TARGET_A[2])) { print $1,TARGET,UPDATED,AVAIL }' | column -t
   }
 
   ### Decode secret
