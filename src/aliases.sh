@@ -119,3 +119,10 @@ function mkproj() {
 function cdtmp() {
   cd "$(mktemp -d)" || return
 }
+
+function kill_history() {
+  function __fzf_history__() { return; }
+  export -f __fzf_history__
+
+  echo "fzf history disabled!"
+}
