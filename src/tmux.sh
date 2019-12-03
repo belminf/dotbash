@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function tmux-ssh() {
+function tmux_ssh() {
   local finish_tmux_setup=false
 
   # Exit if I don't have args
