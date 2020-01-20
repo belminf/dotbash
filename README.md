@@ -24,8 +24,12 @@ sudo systemctl enable pkgfile-update.timer
 ### macOS
 
 ```
-brew install direnv fzf tmux pipenv neovim bash-completion kubectx gnu-sed gnu-which ripgrep bat gron
+brew install direnv fzf tmux pipenv neovim bash-completion kubectx gnu-sed gnu-which ripgrep bat gron bash
 $(brew --prefix)/opt/fzf/install
+
+# Swap to newer bash
+chsh -s /usr/local/bin/bash
+grep -q "/usr/local/bin/bash" || echo "/usr/local/bin/bash" | sudo tee -a /etc/shells >/dev/null
 ```
 
 ## Clone config
