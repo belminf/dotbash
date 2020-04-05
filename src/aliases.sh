@@ -126,3 +126,12 @@ function kill_history() {
 
   echo "fzf history disabled!"
 }
+
+# get https cert
+function https_cert() {
+  case $1 in
+    *:*) host=${1%:*} port=${1##*:} ;;
+    *) host=$1 port=443 ;;
+  esac
+  echo '' | openssl s_client -showcerts -connect "$host:$port"
+}
