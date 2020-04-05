@@ -108,6 +108,8 @@ function print_git_info() {
 
 function print_k8s_info() {
 
+  [ -n "$PROMPT_K8S_OFF" ] && return
+
   local k8s_context k8s_ns
 
   # Remove GKE label if there
