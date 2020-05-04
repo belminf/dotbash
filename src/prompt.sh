@@ -38,6 +38,15 @@ PS_GIT_REMOTE_RE="Your branch is (.*) of"
 PS_GIT_DIVERGE_RE="Your branch and .* have diverged"
 PS_GIT_BRANCH_RE="^On branch ([^[:space:]]*)"
 
+# Get user@host
+function print_userhost() {
+
+  # See if we are in SSH
+  if [[ "$SSH_TTY" ]]; then
+    echo -n "\u@\h "
+  fi
+}
+
 # Get virtualenv
 function print_virtualenv() {
 
@@ -47,20 +56,8 @@ function print_virtualenv() {
     # Strip out the path and just leave the env name
     echo -n "${PS_COLOR_GOOD}py/${PS_COLOR_RHS}${VIRTUAL_ENV##*/}"
   fi
-
-  # ASSERT: Don't print env if not in one
 }
 
-# Get user@host
-function print_userhost() {
-
-  # See if we are in SSH
-  if [[ "$SSH_TTY" ]]; then
-    echo -n "\u@\h "
-  fi
-
-  # ASSERT: Don't print u@h if local
-}
 
 # Get git status
 # Ref: https://gist.github.com/insin/1425703
@@ -124,6 +121,7 @@ function print_k8s_info() {
     fi
   fi
 }
+
 function print_knife_info() {
 
   local current_chef
