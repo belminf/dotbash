@@ -13,7 +13,7 @@ fi
 if [ -z "$PROMPT_COMMAND" ]; then
   PROMPT_COMMAND="set_ps1"
 else
-  PROMPT_COMMAND="${PROMPT_COMMAND};set_ps1"
+  PROMPT_COMMAND="set_ps1;${PROMPT_COMMAND}"
 fi
 
 # Update history right away
