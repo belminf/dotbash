@@ -17,14 +17,14 @@
 ### Arch
 
 ```
-yay -S --needed direnv fzf tmux python-pipenv neovim bash-completion pkgfile kubectx ripgrep bat gron
+yay -S --needed direnv fzf tmux python-pipenv neovim bash-completion pkgfile kubectx ripgrep bat gron tree tldr
 sudo systemctl enable pkgfile-update.timer
 ```
 
 ### macOS
 
 ```
-brew install direnv fzf tmux pipenv neovim bash-completion kubectx coreutils gnu-sed gnu-which ripgrep bat gron bash git
+brew install direnv fzf tmux pipenv neovim bash-completion kubectx coreutils gnu-sed gnu-which ripgrep bat gron bash git tree tldr
 $(brew --prefix)/opt/fzf/install
 
 # Swap to newer bash
