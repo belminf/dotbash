@@ -39,7 +39,8 @@ git clone git@github.com:belminf/dotbash.git ~/.bash
 
 # Link .bashrc
 mv ~/.bashrc ~/.bashrc.original
-ln -s ~/.bash/rc.sh ~/.bashrc
+ln -sf ~/.bash/rc.sh ~/.bashrc
+ln -sf ~/.bash/inputrc ~/.inputrc
 ```
 
 # Local config
