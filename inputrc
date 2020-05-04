@@ -1,3 +1,4 @@
 set editing-mode vi
 set keymap vi
-#set bell-style visible
+set bell-style visible
+set expand-tilde on
